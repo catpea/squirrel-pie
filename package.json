@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "squirrel-pie",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AST-based JavaScript syntax highlighter Web Component using Acorn - Friends with squirrels, not food!",
   "main": "index.js",
   "module": "index.js",
