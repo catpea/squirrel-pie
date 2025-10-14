@@ -2,17 +2,37 @@
   "type": "module",
   "name": "squirrel-pie",
   "version": "1.0.2",
-  "description": "AST based JavaScript syntax highlighter WebComponent",
+  "description": "AST-based JavaScript syntax highlighter Web Component using Acorn - Friends with squirrels, not food!",
   "main": "index.js",
+  "module": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "demo": "http-server -c-1 -o .",
     "save": "git add .; git commit -m 'Updated Release'; npm version patch; npm publish; git push --follow-tags;",
-    "test": "node test"
+    "test": "node test.js",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "ast",
     "acorn",
-    "highlight"
+    "highlight",
+    "syntax-highlighter",
+    "web-component",
+    "custom-element",
+    "javascript",
+    "code-highlighter",
+    "syntax-highlighting",
+    "ast-based",
+    "es2022",
+    "squirrel",
+    "shadowdom"
   ],
   "author": "catpea (https://github.com/catpea)",
   "license": "MIT",
@@ -27,5 +47,14 @@
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/catpea"
+  },
+  "peerDependencies": {
+    "acorn": "^8.15.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

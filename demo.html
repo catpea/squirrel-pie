@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Squirrel Pie - Comprehensive Demo</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+      }
+      h1 {
+        color: #4ec9b0;
+        border-bottom: 2px solid #4ec9b0;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #dcdcaa;
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+      p {
+        line-height: 1.6;
+        color: #9cdcfe;
+      }
+      .example {
+        margin-bottom: 40px;
+      }
+      code:not(squirrel-pie code) {
+        background: #2d2d30;
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: #ce9178;
+      }
+      footer {
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid #3e3e42;
+        text-align: center;
+        color: #808080;
+      }
+      .category {
+        margin-top: 50px;
+        padding-top: 30px;
+        border-top: 2px solid #3e3e42;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🐿️ Squirrel Pie - Comprehensive Demo</h1>
+    <p>Showcasing all supported AST node types with interactive syntax highlighting</p>
+
+    <div class="category">
+      <h2>Classes & Object-Oriented Programming</h2>
+
+      <div class="example">
+        <h3>ES6 Classes with Getters, Setters & Static Members</h3>
+        <squirrel-pie>
+          class Animal {
+            static kingdom = 'Animalia';
+            #privateField = 'secret';
+
+            constructor(name, species) {
+              this.name = name;
+              this.species = species;
+            }
+
+            get description() {
+              return `${this.name} is a ${this.species}`;
+            }
+
+            set nickname(value) {
+              this.name = value;
+            }
+
+            static compare(a, b) {
+              return a.species === b.species;
+            }
+
+            static {
+              console.log('Class initialized');
+            }
+          }
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Class Inheritance</h3>
+        <squirrel-pie>
+          class Dog extends Animal {
+            constructor(name, breed) {
+              super(name, 'Dog');
+              this.breed = breed;
+            }
+
+            bark() {
+              return `${this.name} says woof!`;
+            }
+          }
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Functions</h2>
+
+      <div class="example">
+        <h3>Arrow Functions</h3>
+        <squirrel-pie>
+          const add = (a, b) => a + b;
+          const square = x => x * x;
+          const greet = () => 'Hello!';
+          const complex = (x, y) => {
+            const sum = x + y;
+            return sum * 2;
+          };
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Async Functions & Await</h3>
+        <squirrel-pie>
+          async function fetchData(url) {
+            try {
+              const response = await fetch(url);
+              const data = await response.json();
+              return data;
+            } catch (error) {
+              console.error('Error:', error);
+              throw error;
+            }
+          }
+
+          const getData = async () => await fetchData('/api');
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Generator Functions</h3>
+        <squirrel-pie>
+          function* fibonacci() {
+            let a = 0, b = 1;
+            while (true) {
+              yield a;
+              [a, b] = [b, a + b];
+            }
+          }
+
+          function* range(start, end) {
+            for (let i = start; i < end; i++) {
+              yield i;
+            }
+          }
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Destructuring & Patterns</h2>
+
+      <div class="example">
+        <h3>Array & Object Destructuring</h3>
+        <squirrel-pie>
+          const [first, second, ...rest] = [1, 2, 3, 4, 5];
+          const {name, age, city = 'Unknown'} = user;
+          const {x: posX, y: posY} = coordinates;
+
+          function processUser({id, name, email}) {
+            return {id, name, email};
+          }
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Default Parameters & Rest/Spread</h3>
+        <squirrel-pie>
+          function greet(name = 'Guest', greeting = 'Hello') {
+            return `${greeting}, ${name}!`;
+          }
+
+          const sum = (...numbers) => numbers.reduce((a, b) => a + b, 0);
+
+          const arr1 = [1, 2, 3];
+          const arr2 = [...arr1, 4, 5];
+          const merged = {...obj1, ...obj2};
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Control Flow</h2>
+
+      <div class="example">
+        <h3>If/Else & Switch</h3>
+        <squirrel-pie>
+          if (score >= 90) {
+            grade = 'A';
+          } else if (score >= 80) {
+            grade = 'B';
+          } else {
+            grade = 'C';
+          }
+
+          switch (day) {
+            case 'Monday':
+              console.log('Start of week');
+              break;
+            case 'Friday':
+              console.log('Almost weekend!');
+              break;
+            default:
+              console.log('Regular day');
+          }
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Loops</h3>
+        <squirrel-pie>
+          for (let i = 0; i < 10; i++) {
+            console.log(i);
+          }
+
+          for (const key in object) {
+            console.log(key, object[key]);
+          }
+
+          for (const item of array) {
+            console.log(item);
+          }
+
+          for await (const chunk of stream) {
+            process(chunk);
+          }
+
+          while (condition) {
+            doSomething();
+          }
+
+          do {
+            doSomething();
+          } while (condition);
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Try/Catch/Finally</h3>
+        <squirrel-pie>
+          try {
+            riskyOperation();
+          } catch (error) {
+            console.error('Error occurred:', error);
+          } finally {
+            cleanup();
+          }
+
+          try {
+            await fetchData();
+          } catch {
+            console.log('Failed to fetch');
+          }
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Labels, Break & Continue</h3>
+        <squirrel-pie>
+          outer: for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (i === 1 && j === 1) break outer;
+              if (j === 0) continue;
+              console.log(i, j);
+            }
+          }
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Modern JavaScript Features</h2>
+
+      <div class="example">
+        <h3>Template Literals & Tagged Templates</h3>
+        <squirrel-pie>
+          const name = 'World';
+          const greeting = `Hello, ${name}!`;
+          const multiline = `
+            Line 1
+            Line 2
+          `;
+
+          function tag(strings, ...values) {
+            return strings[0] + values[0].toUpperCase();
+          }
+
+          const styled = tag`hello ${name}`;
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Optional Chaining & Nullish Coalescing</h3>
+        <squirrel-pie>
+          const value = obj?.prop?.nested;
+          const result = func?.();
+          const item = array?.[0];
+
+          const name = user.name ?? 'Anonymous';
+          const count = data?.length ?? 0;
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Logical Assignment</h3>
+        <squirrel-pie>
+          x ||= 10;
+          y &&= 5;
+          z ??= 'default';
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Modules</h2>
+
+      <div class="example">
+        <h3>Import & Export</h3>
+        <squirrel-pie>
+          import React from 'react';
+          import {useState, useEffect} from 'react';
+          import * as utils from './utils.js';
+          import('./dynamic.js').then(module => {});
+
+          export const PI = 3.14159;
+          export function calculate(x) {
+            return x * 2;
+          }
+          export default class MyClass {}
+          export {foo, bar} from './other.js';
+          export * from './all.js';
+        </squirrel-pie>
+      </div>
+
+      <!-- NOT YET :(
+      <div class="example">
+        <h3>Import Attributes</h3>
+        <squirrel-pie>
+          import data from './data.json' with { type: 'json' };
+        </squirrel-pie>
+      </div>
+      -->
+
+    </div>
+
+    <div class="category">
+      <h2>Expressions & Operators</h2>
+
+      <div class="example">
+        <h3>All Operators</h3>
+        <squirrel-pie>
+          const arithmetic = a + b - c * d / e % f ** 2;
+          const logical = (x && y) || (z ?? w);
+          const comparison = a === b && c !== d && e < f && g > h;
+          const bitwise = ((x & y) | (z ^ (~w << 2))) >> 1 >>> 3
+          const unary = (+x, -y, !z, ~w, typeof v, void 0);
+          const update = (++i, --j, k++, l--);
+          const ternary = condition ? true : false;
+          const sequence = (a, b, c);
+          const instanceCheck = obj instanceof Class;
+          const inCheck = 'key' in object;
+          const deleteOp = delete obj.prop;
+        </squirrel-pie>
+      </div>
+
+      <div class="example">
+        <h3>Special Expressions</h3>
+        <squirrel-pie>
+          const obj = {name: 'test', [computed]: value};
+          const arr = [1, 2, ...others];
+          const newObj = new MyClass(arg1, arg2);
+          const result = /pattern/gi.test(str);
+          const meta = import.meta.url;
+          const bigNumber = 123456789n;
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Complex Real-World Example</h2>
+
+      <div class="example">
+        <h3>Complete Application Pattern</h3>
+        <squirrel-pie>
+          class DataService {
+            #cache = new Map();
+
+            async fetchUser(id) {
+              if (this.#cache.has(id)) {
+                return this.#cache.get(id);
+              }
+
+              try {
+                const response = await fetch(`/api/users/${id}`);
+                if (!response.ok) throw new Error('Failed');
+
+                const user = await response.json();
+                this.#cache.set(id, user);
+                return user;
+              } catch (error) {
+                console.error('Error:', error);
+                return null;
+              }
+            }
+
+            static async create() {
+              const service = new DataService();
+              await service.init();
+              return service;
+            }
+          }
+
+          const processUsers = async (ids) => {
+            const service = await DataService.create();
+            const results = [];
+
+            for (const id of ids) {
+              const user = await service.fetchUser(id);
+              if (user) results.push(user);
+            }
+
+            return results;
+          };
+        </squirrel-pie>
+      </div>
+    </div>
+
+    <footer>
+      <p>Made with 🌰 by <a href="https://github.com/catpea">catpea</a></p>
+      <p>All modern JavaScript syntax supported • Hover over any element to see AST node type</p>
+    </footer>
+
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

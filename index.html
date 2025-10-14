@@ -3,187 +3,339 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="ara-ara.css" rel="stylesheet" />
-    <!-- I placed the CSS in its own file -->
+    <meta name="description" content="AST-based JavaScript syntax highlighter Web Component using Acorn">
+    <meta name="keywords" content="javascript, syntax highlighter, ast, acorn, web component">
+    <meta name="author" content="catpea">
+    <title>Squirrel Pie - AST-based JavaScript Syntax Highlighter</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
+        color: #d4d4d4;
+        line-height: 1.6;
+      }
+      header {
+        text-align: center;
+        padding: 60px 20px 40px;
+        background: linear-gradient(135deg, #252526 0%, #1e1e1e 100%);
+        border-bottom: 3px solid #4ec9b0;
+      }
+      header h1 {
+        font-size: 3.5rem;
+        color: #4ec9b0;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      header p {
+        font-size: 1.3rem;
+        color: #9cdcfe;
+        margin-bottom: 30px;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+      .btn-primary {
+        background: #4ec9b0;
+        color: #1e1e1e;
+      }
+      .btn-primary:hover {
+        background: #5ddbbe;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(78, 201, 176, 0.3);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: #4ec9b0;
+        border: 2px solid #4ec9b0;
+      }
+      .btn-secondary:hover {
+        background: rgba(78, 201, 176, 0.1);
+        transform: translateY(-2px);
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      section {
+        margin-bottom: 60px;
+      }
+      h2 {
+        color: #dcdcaa;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #3e3e42;
+        padding-bottom: 10px;
+      }
+      h3 {
+        color: #4ec9b0;
+        font-size: 1.5rem;
+        margin: 30px 0 15px;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+      }
+      .feature-card {
+        background: #252526;
+        padding: 25px;
+        border-radius: 8px;
+        border: 1px solid #3e3e42;
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        border-color: #4ec9b0;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(78, 201, 176, 0.2);
+      }
+      .feature-card h3 {
+        margin-top: 0;
+        font-size: 1.2rem;
+      }
+      .code-example {
+        background: #252526;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #3e3e42;
+        margin: 20px 0;
+      }
+      code:not(squirrel-pie code) {
+        background: #2d2d30;
+        padding: 3px 8px;
+        border-radius: 4px;
+        color: #ce9178;
+        font-family: 'Courier New', monospace;
+      }
+      pre {
+        background: #1e1e1e;
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        border: 1px solid #3e3e42;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        color: #d4d4d4;
+      }
+      .install-section {
+        background: #252526;
+        padding: 30px;
+        border-radius: 8px;
+        border-left: 4px solid #4ec9b0;
+      }
+      footer {
+        background: #1e1e1e;
+        text-align: center;
+        padding: 40px 20px;
+        border-top: 2px solid #3e3e42;
+        margin-top: 60px;
+      }
+      footer p {
+        color: #808080;
+      }
+      footer a {
+        color: #4ec9b0;
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: #5ddbbe;
+        text-decoration: underline;
+      }
+      .demo-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-top: 30px;
+      }
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2.5rem;
+        }
+        header p {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
   </head>
   <body>
+    <header>
+      <h1>🐿️ Squirrel Pie 🥧</h1>
+      <p>AST-based JavaScript Syntax Highlighter</p>
+      <div class="hero-buttons">
+        <a href="https://github.com/catpea/squirrel-pie" class="btn btn-primary">View on GitHub</a>
+        <a href="https://www.npmjs.com/package/squirrel-pie" class="btn btn-secondary">NPM Package</a>
+        <a href="#demo" class="btn btn-secondary">Quick Demo</a>
+        <a href="demo.html" class="btn btn-secondary">🐿️ Kitchen Sink</a>
+      </div>
+    </header>
 
-    <!--we must monitor for value attribute change -->
-    <ara-ara value="function test () {\n return 1;\n }"></ara-ara>
+    <div class="container">
+      <section>
+        <h2>✨ Features</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>🎨 AST-Aware</h3>
+            <p>Unlike regex-based highlighters, Squirrel Pie parses your code into an Abstract Syntax Tree for true semantic understanding.</p>
+          </div>
+          <div class="feature-card">
+            <h3>🔍 Interactive</h3>
+            <p>Hover over any element to see its AST node type. Perfect for learning and debugging.</p>
+          </div>
+          <div class="feature-card">
+            <h3>📦 Zero Dependencies</h3>
+            <p>Just Acorn for parsing. No heavy frameworks or libraries needed.</p>
+          </div>
+          <div class="feature-card">
+            <h3>🎯 Encapsulated</h3>
+            <p>Built with Shadow DOM for complete style encapsulation. Won't interfere with your styles.</p>
+          </div>
+          <div class="feature-card">
+            <h3>⚡ Dynamic</h3>
+            <p>Responds to attribute changes in real-time. Perfect for live editors.</p>
+          </div>
+          <div class="feature-card">
+            <h3>🌐 Modern</h3>
+            <p>Supports ES2022 syntax including classes, async/await, and more.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- we may need a dedent function -->
-    <ara-ara>
-      function test () {
-        return 1;
-      }
-    </ara-ara>
+      <section class="install-section">
+        <h2>🚀 Quick Start</h2>
+        <h3>Via CDN</h3>
+        <pre><code>&lt;script type="module"&gt;
+  import 'https://cdn.jsdelivr.net/npm/squirrel-pie@latest/index.js';
+&lt;/script&gt;
 
-    <!-- content of ara ara must be put into a <template> inside AraAra class -->
-    <ara-ara>
-      class Rectangle {
-        constructor(height, width) {
-          this.height = height;
-          this.width = width;
-        }
-        // Getter
-        get area() {
-          return this.calcArea();
-        }
-        // Method
-        calcArea() {
-          return this.height * this.width;
-        }
-      }
+&lt;squirrel-pie&gt;
+  function hello(name) {
+    return `Hello, ${name}!`;
+  }
+&lt;/squirrel-pie&gt;</code></pre>
 
-      const square = new Rectangle(10, 10);
+        <h3>Via npm</h3>
+        <pre><code>npm install squirrel-pie</code></pre>
+        <pre><code>import 'squirrel-pie';</code></pre>
+      </section>
 
-      console.log(square.area); // 100
+      <section id="demo">
+        <h2>🎪 Live Demos</h2>
 
-      const squared = function (number) {
-        return number * number;
-      };
+        <div class="demo-grid">
+          <div class="code-example">
+            <h3>Simple Function</h3>
+            <squirrel-pie>
+              function greet(name) {
+                return `Hello, ${name}!`;
+              }
+            </squirrel-pie>
+          </div>
 
-      console.log(squared(4)); // 16
-    </ara-ara>
+          <div class="code-example">
+            <h3>ES6 Class</h3>
+            <squirrel-pie>
+              class Circle {
+                constructor(radius) {
+                  this.radius = radius;
+                }
 
-    <script type="module">
-      import * as acorn from "https://cdn.jsdelivr.net/npm/acorn@8.15.0/+esm";
+                get area() {
+                  return Math.PI * this.radius ** 2;
+                }
 
-      // TODO: make sure that we use template as the the main slot, so that the code content is not rendered
-      class AraAra extends HTMLElement {
-        static observedAttributes = ["value", "sourceType"];
+                get circumference() {
+                  return 2 * Math.PI * this.radius;
+                }
+              }
+            </squirrel-pie>
+          </div>
 
-        #sourcecode; //this should hold the sourcecode pulled from main slot within the template element
+          <div class="code-example">
+            <h3>Arrow Functions & Destructuring</h3>
+            <squirrel-pie>
+              const users = [
+                { name: 'Alice', age: 30 },
+                { name: 'Bob', age: 25 }
+              ];
 
-        constructor() {
-          super();
-          const shadow = this.attachShadow({ mode: "open" });
-          // TODO: create template that hosts the main slot, or whatever you choose
-          // TODO: shadow.appendChild(...);
-        }
+              const names = users.map(({ name }) => name);
+              const adults = users.filter(u => u.age >= 18);
+            </squirrel-pie>
+          </div>
 
-        connectedCallback() {
-          const ast = this.parseCode(this.#sourcecode);
-          const astHtml = this.renderNode(ast);
+          <div class="code-example">
+            <h3>Async/Await</h3>
+            <squirrel-pie>
+              async function fetchUser(id) {
+                try {
+                  const response = await fetch(`/api/users/${id}`);
+                  const user = await response.json();
+                  return user;
+                } catch (error) {
+                  console.error('Failed to fetch user:', error);
+                  throw error;
+                }
+              }
+            </squirrel-pie>
+          </div>
+        </div>
+      </section>
 
-          const outputElement = document.createElement("code");
-          outputElement.innerHTML = astHtml;
-          this.shadowRoot.appendChild(outputElement);
-        }
+      <section>
+        <h2>📖 Documentation</h2>
+        <p>For detailed documentation, API reference, and more examples, visit the <a href="https://github.com/catpea/squirrel-pie" style="color: #4ec9b0;">GitHub repository</a>.</p>
 
-        parse(sourcecode) {
-          const ast = acorn.parse(sourcecode, {
-            ecmaVersion: 2022,
-            sourceType: "module",
-          });
-          return ast;
-        }
+        <h3>Basic Usage</h3>
+        <pre><code>&lt;!-- Using slot content --&gt;
+&lt;squirrel-pie&gt;
+  const x = 42;
+&lt;/squirrel-pie&gt;
 
-        wrap(type, content) {
-          return `<span class="${type}" title="${type}">${content}</span>`;
-        }
+&lt;!-- Using value attribute --&gt;
+&lt;squirrel-pie value="const x = 42;"&gt;&lt;/squirrel-pie&gt;
 
-        renderNode(node, indent = 0) {
-          if (!node) return "";
+&lt;!-- Dynamic updates --&gt;
+&lt;script&gt;
+  document.querySelector('squirrel-pie')
+    .setAttribute('value', 'const y = 100;');
+&lt;/script&gt;</code></pre>
+      </section>
+    </div>
 
-          const ind = "  ".repeat(indent);
+    <footer>
+      <p>Made with 🌰 by <a href="https://github.com/catpea">catpea</a></p>
+      <p>
+        <a href="https://github.com/catpea/squirrel-pie">GitHub</a> •
+        <a href="https://www.npmjs.com/package/squirrel-pie">NPM</a> •
+        <a href="https://github.com/catpea/squirrel-pie/issues">Issues</a>
+      </p>
+      <p style="margin-top: 20px; font-size: 0.9rem;">MIT License © 2025</p>
+    </footer>
 
-          switch (node.type) {
-            case "Program":
-              return node.body.map((n) => renderNode(n, indent)).join("\n");
+    <script type="module" src="./index.js"></script>
 
-            case "ClassDeclaration":
-              const className = this.wrap("Identifier", node.id.name);
-              const classBody = renderNode(node.body, indent);
-              return this.wrap("ClassDeclaration", `class ${className} ${classBody}`);
-
-            case "ClassBody":
-              const methods = node.body.map((n) => renderNode(n, indent + 1)).join("\n");
-              return this.wrap("ClassBody", `{\n${methods}\n${ind}}`);
-
-            case "MethodDefinition":
-              const prefix = node.kind === "get" ? "get " : node.kind === "set" ? "set " : "";
-              const methodName = this.wrap("Identifier", node.key.name);
-              const params = node.value.params.map((p) => renderNode(p)).join(", ");
-              const body = renderNode(node.value.body, indent);
-              return `${ind}${this.wrap("MethodDefinition", prefix + methodName)}(${params}) ${body}`;
-
-            case "FunctionDeclaration":
-              const fnName = this.wrap("Identifier", node.id.name);
-              const fnParams = node.params.map((p) => renderNode(p)).join(", ");
-              const fnBody = renderNode(node.body, indent);
-              return this.wrap("FunctionDeclaration", `function ${fnName}(${fnParams}) ${fnBody}`);
-
-            case "FunctionExpression":
-              const fParams = node.params.map((p) => renderNode(p)).join(", ");
-              const fBody = renderNode(node.body, indent);
-              return this.wrap("FunctionExpression", `function (${fParams}) ${fBody}`);
-
-            case "BlockStatement":
-              const statements = node.body.map((n) => renderNode(n, indent + 1)).join("\n");
-              return this.wrap("BlockStatement", `{\n${statements}\n${ind}}`);
-
-            case "ExpressionStatement":
-              return `${ind}${this.wrap("ExpressionStatement", renderNode(node.expression))};`;
-
-            case "ReturnStatement":
-              return `${ind}${this.wrap("ReturnStatement", "return " + renderNode(node.argument))}`;
-
-            case "VariableDeclaration":
-              const decls = node.declarations.map((d) => renderNode(d)).join(", ");
-              return this.wrap("VariableDeclaration", `${node.kind} ${decls}`);
-
-            case "VariableDeclarator":
-              const varId = renderNode(node.id);
-              const varInit = node.init ? " = " + renderNode(node.init) : "";
-              return this.wrap("VariableDeclarator", varId + varInit);
-
-            case "AssignmentExpression":
-              const left = renderNode(node.left);
-              const right = renderNode(node.right);
-              return this.wrap("AssignmentExpression", `${left} ${node.operator} ${right}`);
-
-            case "BinaryExpression":
-              const binLeft = renderNode(node.left);
-              const binRight = renderNode(node.right);
-              return this.wrap("BinaryExpression", `${binLeft} ${node.operator} ${binRight}`);
-
-            case "CallExpression":
-              const callee = renderNode(node.callee);
-              const args = node.arguments.map((a) => renderNode(a)).join(", ");
-              return this.wrap("CallExpression", `${callee}(${args})`);
-
-            case "NewExpression":
-              const newCallee = renderNode(node.callee);
-              const newArgs = node.arguments.map((a) => renderNode(a)).join(", ");
-              return this.wrap("NewExpression", `new ${newCallee}(${newArgs})`);
-
-            case "MemberExpression":
-              const obj = renderNode(node.object);
-              const prop = node.computed ? `[${renderNode(node.property)}]` : `.${renderNode(node.property)}`;
-              return this.wrap("MemberExpression", obj + prop);
-
-            case "ThisExpression":
-              return this.wrap("ThisExpression", "this");
-
-            case "Identifier":
-              return this.wrap("Identifier", node.name);
-
-            case "Literal":
-              return this.wrap("Literal", node.raw);
-
-            default:
-              return `/* Unknown: ${node.type} */`;
-          }
-        }
-      }
-
-      // Define the custom element
-      customElements.define("ara-ara", AraAra);
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
