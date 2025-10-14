@@ -57,6 +57,8 @@ Choose wisely.
 
 *No squirrels were harmed in the making of this software. In fact, several were consulted. They provided no useful feedback but did steal a sandwich.*
 
+---
+
 ## Features
 
 - 🎨 **AST-aware highlighting** - Understands code structure, not just patterns
@@ -224,6 +226,77 @@ By default, code is parsed as a module. You can change this:
 |-----------|------|---------|-------------|
 | `value` | string | - | JavaScript code to highlight (overrides slot content) |
 | `source-type` | string | `"module"` | Parse mode: `"module"` or `"script"` |
+| `theme` | string | - | URL to external CSS theme file |
+
+## Themes - Learn AST Through Color! 🎨
+
+Squirrel Pie makes learning AST node types fun through color-coded themes. Each CSS class corresponds to an AST node type, and hovering over any element shows its type.
+
+### Using Themes
+
+```html
+<!-- Use default built-in theme -->
+<squirrel-pie>
+  const x = 42;
+</squirrel-pie>
+
+<!-- Use external theme -->
+<squirrel-pie theme="./my-theme.css">
+  const x = 42;
+</squirrel-pie>
+
+<!-- Use CDN theme -->
+<squirrel-pie theme="https://cdn.jsdelivr.net/gh/catpea/squirrel-pie/gruvbox.css">
+  const x = 42;
+</squirrel-pie>
+```
+
+### Built-in Themes
+
+Three professionally crafted themes are available:
+
+1. **basic.css** - Clean, minimalist light theme
+2. **solarized.css** - Solarized Dark palette
+3. **gruvbox.css** - Retro warm dark theme
+
+Download from: `https://cdn.jsdelivr.net/gh/catpea/squirrel-pie/{theme-name}.css`
+
+### Creating Custom Themes
+
+Every theme file has extensive comments explaining each AST node type with code examples:
+
+```css
+/* if (condition) {...} else {...} - the entire if statement */
+.IfStatement { color: #c586c0; font-weight: bold; }
+
+/* function myFunc() {} - function declaration */
+.FunctionDeclaration { color: #dcdcaa; font-weight: 600; }
+
+/* obj.property or array[index] - member access */
+.MemberExpression { color: #9cdcfe; }
+```
+
+This makes theme creation a **learning experience**! You'll naturally understand:
+- What a `CallExpression` is (function calls)
+- The difference between `FunctionDeclaration` and `FunctionExpression`
+- How destructuring works (`ArrayPattern`, `ObjectPattern`)
+- What makes up a loop (`ForStatement`, `ForInStatement`, `ForOfStatement`)
+
+### AST Node Classes
+
+All 60+ AST node types are available as CSS classes:
+
+**Declarations:** `ClassDeclaration`, `FunctionDeclaration`, `VariableDeclaration`
+
+**Expressions:** `CallExpression`, `MemberExpression`, `BinaryExpression`, `ArrowFunctionExpression`
+
+**Statements:** `IfStatement`, `ForStatement`, `WhileStatement`, `ReturnStatement`, `TryStatement`
+
+**Patterns:** `ArrayPattern`, `ObjectPattern`, `RestElement`, `SpreadElement`
+
+**Literals:** `Literal`, `TemplateLiteral`
+
+**And many more!** See the theme CSS files for complete documentation.
 
 ## Styling
 

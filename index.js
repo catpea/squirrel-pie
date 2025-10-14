@@ -1,93 +1,31 @@
 import * as acorn from "https://cdn.jsdelivr.net/npm/acorn@8.15.0/+esm";
 
 class SquirrelPie extends HTMLElement {
-  static observedAttributes = ["value", "source-type"];
+  static observedAttributes = ["value", "source-type", "theme"];
 
   #sourcecode = "";
   #sourceType = "module";
+  #theme = "";
 
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
 
-    const style = document.createElement("style");
-    style.textContent = `
-      :host {
-        display: block;
-        font-family: 'Courier New', monospace;
-        background: #252526;
-        padding: 20px;
-        border-radius: 4px;
-        border: 1px solid #3e3e42;
-        overflow-x: auto;
-      }
-      code {
-        display: block;
-        white-space: pre;
-        line-height: 1.6;
-        color: #d4d4d4;
-      }
-      .Program { color: #d4d4d4; }
-      .ClassDeclaration { color: #4ec9b0; }
-      .ClassExpression { color: #4ec9b0; }
-      .ClassBody { color: #d4d4d4; }
-      .MethodDefinition { color: #dcdcaa; }
-      .PropertyDefinition { color: #9cdcfe; }
-      .FunctionExpression { color: #dcdcaa; }
-      .FunctionDeclaration { color: #dcdcaa; }
-      .ArrowFunctionExpression { color: #dcdcaa; }
-      .BlockStatement { display: inline; }
-      .StaticBlock { display: inline; }
-      .ExpressionStatement { color: #d4d4d4; }
-      .AssignmentExpression { color: #d4d4d4; }
-      .MemberExpression { color: #9cdcfe; }
-      .ThisExpression { color: #569cd6; font-weight: bold; }
-      .Super { color: #569cd6; font-weight: bold; }
-      .Identifier { color: #9cdcfe; }
-      .PrivateIdentifier { color: #9cdcfe; }
-      .ReturnStatement { color: #c586c0; font-weight: bold; }
-      .ThrowStatement { color: #c586c0; font-weight: bold; }
-      .BreakStatement { color: #c586c0; font-weight: bold; }
-      .ContinueStatement { color: #c586c0; font-weight: bold; }
-      .IfStatement { color: #c586c0; font-weight: bold; }
-      .SwitchStatement { color: #c586c0; font-weight: bold; }
-      .WhileStatement { color: #c586c0; font-weight: bold; }
-      .DoWhileStatement { color: #c586c0; font-weight: bold; }
-      .ForStatement { color: #c586c0; font-weight: bold; }
-      .ForInStatement { color: #c586c0; font-weight: bold; }
-      .ForOfStatement { color: #c586c0; font-weight: bold; }
-      .TryStatement { color: #c586c0; font-weight: bold; }
-      .WithStatement { color: #c586c0; font-weight: bold; }
-      .CallExpression { color: #dcdcaa; }
-      .BinaryExpression { color: #d4d4d4; }
-      .LogicalExpression { color: #d4d4d4; }
-      .UnaryExpression { color: #d4d4d4; }
-      .UpdateExpression { color: #d4d4d4; }
-      .VariableDeclaration { color: #569cd6; font-weight: bold; }
-      .VariableDeclarator { color: #d4d4d4; }
-      .NewExpression { color: #569cd6; font-weight: bold; }
-      .Literal { color: #b5cea8; }
-      .TemplateLiteral { color: #ce9178; }
-      .ArrayExpression { color: #d4d4d4; }
-      .ObjectExpression { color: #d4d4d4; }
-      .SpreadElement { color: #d4d4d4; }
-      .RestElement { color: #d4d4d4; }
-      .YieldExpression { color: #c586c0; font-weight: bold; }
-      .AwaitExpression { color: #c586c0; font-weight: bold; }
-      .ImportDeclaration { color: #c586c0; font-weight: bold; }
-      .ExportNamedDeclaration { color: #c586c0; font-weight: bold; }
-      .ExportDefaultDeclaration { color: #c586c0; font-weight: bold; }
-      .ExportAllDeclaration { color: #c586c0; font-weight: bold; }
-      .MetaProperty { color: #9cdcfe; }
-      .keyword { color: #569cd6; font-weight: bold; }
-      .operator { color: #d4d4d4; }
-      .punctuation { color: #808080; }
-      span[title]:hover {
-        background: #264f78;
-        cursor: help;
-      }
-    `;
-    shadow.appendChild(style);
+    // Check for theme attribute
+    const themeUrl = this.getAttribute("theme");
+
+    if (themeUrl) {
+      // Load external theme
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = themeUrl;
+      shadow.appendChild(link);
+    } else {
+      // Use built-in default theme
+      const style = document.createElement("style");
+      style.textContent = this.getDefaultStyles();
+      shadow.appendChild(style);
+    }
 
     const template = document.createElement("template");
     const slot = document.createElement("slot");
@@ -113,7 +51,230 @@ class SquirrelPie extends HTMLElement {
     } else if (name === "source-type") {
       this.#sourceType = newValue;
       this.render();
+    } else if (name === "theme") {
+      this.#theme = newValue;
+      this.updateTheme();
     }
+  }
+
+  updateTheme() {
+    // Remove existing style/link elements
+    const existingStyle = this.shadowRoot.querySelector("style");
+    const existingLink = this.shadowRoot.querySelector("link[rel='stylesheet']");
+    if (existingStyle) existingStyle.remove();
+    if (existingLink) existingLink.remove();
+
+    // Add new theme
+    if (this.#theme) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = this.#theme;
+      this.shadowRoot.insertBefore(link, this.shadowRoot.firstChild);
+    } else {
+      const style = document.createElement("style");
+      style.textContent = this.getDefaultStyles();
+      this.shadowRoot.insertBefore(style, this.shadowRoot.firstChild);
+    }
+  }
+
+  getDefaultStyles() {
+    return `
+      :host {
+        display: block;
+        font-family: 'Courier New', monospace;
+        background: #252526;
+        padding: 20px;
+        border-radius: 4px;
+        border: 1px solid #3e3e42;
+        overflow-x: auto;
+      }
+      code {
+        display: block;
+        white-space: pre;
+        line-height: 1.6;
+        color: #d4d4d4;
+      }
+
+      /* Root program node */
+      .Program { color: #d4d4d4; }
+
+      /* class MyClass {} or class MyClass extends Base {} */
+      .ClassDeclaration { color: #4ec9b0; }
+
+      /* const MyClass = class {} */
+      .ClassExpression { color: #4ec9b0; }
+
+      /* The {...} body containing class members */
+      .ClassBody { color: #d4d4d4; }
+
+      /* constructor() {} or myMethod() {} or get value() {} */
+      .MethodDefinition { color: #dcdcaa; }
+
+      /* class property: myProp = 42; */
+      .PropertyDefinition { color: #9cdcfe; }
+
+      /* const fn = function() {} */
+      .FunctionExpression { color: #dcdcaa; }
+
+      /* function myFunc() {} */
+      .FunctionDeclaration { color: #dcdcaa; }
+
+      /* const fn = () => {} or x => x * 2 */
+      .ArrowFunctionExpression { color: #dcdcaa; }
+
+      /* {...} containing statements */
+      .BlockStatement { display: inline; }
+
+      /* static {...} in class */
+      .StaticBlock { display: inline; }
+
+      /* Any expression used as a statement: console.log(); */
+      .ExpressionStatement { color: #d4d4d4; }
+
+      /* x = 10 or obj.prop = value */
+      .AssignmentExpression { color: #d4d4d4; }
+
+      /* obj.property or obj[key] or obj?.optional */
+      .MemberExpression { color: #9cdcfe; }
+
+      /* this keyword */
+      .ThisExpression { color: #569cd6; font-weight: bold; }
+
+      /* super keyword */
+      .Super { color: #569cd6; font-weight: bold; }
+
+      /* Variable and function names: myVar, funcName */
+      .Identifier { color: #9cdcfe; }
+
+      /* Private class members: #privateField */
+      .PrivateIdentifier { color: #9cdcfe; }
+
+      /* return value; */
+      .ReturnStatement { color: #c586c0; font-weight: bold; }
+
+      /* throw new Error(); */
+      .ThrowStatement { color: #c586c0; font-weight: bold; }
+
+      /* break; or break label; */
+      .BreakStatement { color: #c586c0; font-weight: bold; }
+
+      /* continue; or continue label; */
+      .ContinueStatement { color: #c586c0; font-weight: bold; }
+
+      /* if (condition) {...} else {...} */
+      .IfStatement { color: #c586c0; font-weight: bold; }
+
+      /* switch (value) { case ...: } */
+      .SwitchStatement { color: #c586c0; font-weight: bold; }
+
+      /* while (condition) {...} */
+      .WhileStatement { color: #c586c0; font-weight: bold; }
+
+      /* do {...} while (condition); */
+      .DoWhileStatement { color: #c586c0; font-weight: bold; }
+
+      /* for (let i = 0; i < 10; i++) {...} */
+      .ForStatement { color: #c586c0; font-weight: bold; }
+
+      /* for (key in obj) {...} */
+      .ForInStatement { color: #c586c0; font-weight: bold; }
+
+      /* for (item of array) {...} */
+      .ForOfStatement { color: #c586c0; font-weight: bold; }
+
+      /* try {...} catch {...} finally {...} */
+      .TryStatement { color: #c586c0; font-weight: bold; }
+
+      /* with (obj) {...} - deprecated but valid */
+      .WithStatement { color: #c586c0; font-weight: bold; }
+
+      /* func(arg1, arg2) or obj.method() */
+      .CallExpression { color: #dcdcaa; }
+
+      /* a + b or x * y or "string" + var */
+      .BinaryExpression { color: #d4d4d4; }
+
+      /* a && b or x || y or z ?? default */
+      .LogicalExpression { color: #d4d4d4; }
+
+      /* !value or -num or typeof x */
+      .UnaryExpression { color: #d4d4d4; }
+
+      /* i++ or --count */
+      .UpdateExpression { color: #d4d4d4; }
+
+      /* const x = 1; or let y; or var z; */
+      .VariableDeclaration { color: #569cd6; font-weight: bold; }
+
+      /* The x = 1 part of const x = 1; */
+      .VariableDeclarator { color: #d4d4d4; }
+
+      /* new MyClass() or new Array(10) */
+      .NewExpression { color: #569cd6; font-weight: bold; }
+
+      /* 42, "string", true, null, /regex/g */
+      .Literal { color: #b5cea8; }
+
+      /* \`template $ {expression} string\` */
+      .TemplateLiteral { color: #ce9178; }
+
+      /* [1, 2, 3] or [a, ...rest] */
+      .ArrayExpression { color: #d4d4d4; }
+
+      /* {key: value, method() {}} */
+      .ObjectExpression { color: #d4d4d4; }
+
+      /* ...array or ...obj in expressions */
+      .SpreadElement { color: #d4d4d4; }
+
+      /* ...rest in destructuring patterns */
+      .RestElement { color: #d4d4d4; }
+
+      /* yield value or yield* iterable */
+      .YieldExpression { color: #c586c0; font-weight: bold; }
+
+      /* await promise */
+      .AwaitExpression { color: #c586c0; font-weight: bold; }
+
+      /* import {x} from 'module'; */
+      .ImportDeclaration { color: #c586c0; font-weight: bold; }
+
+      /* export {x, y}; or export const z = 1; */
+      .ExportNamedDeclaration { color: #c586c0; font-weight: bold; }
+
+      /* export default MyClass; */
+      .ExportDefaultDeclaration { color: #c586c0; font-weight: bold; }
+
+      /* export * from 'module'; */
+      .ExportAllDeclaration { color: #c586c0; font-weight: bold; }
+
+      /* import.meta or new.target */
+      .MetaProperty { color: #9cdcfe; }
+
+      /* condition ? true : false */
+      .ConditionalExpression { color: #d4d4d4; }
+
+      /* [a, b] = array or {x, y} = obj */
+      .ArrayPattern { color: #d4d4d4; }
+      .ObjectPattern { color: #d4d4d4; }
+
+      /* param = default in function params */
+      .AssignmentPattern { color: #d4d4d4; }
+
+      /* a, b, c in sequence */
+      .SequenceExpression { color: #d4d4d4; }
+
+      /* Fallback styles */
+      .keyword { color: #569cd6; font-weight: bold; }
+      .operator { color: #d4d4d4; }
+      .punctuation { color: #808080; }
+
+      /* Hover effect to show AST node type */
+      span[title]:hover {
+        background: #264f78;
+        cursor: help;
+      }
+    `;
   }
 
   dedent(text) {

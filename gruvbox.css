@@ -1,0 +1,206 @@
+/**
+ * Squirrel Pie - Gruvbox Dark Theme
+ * Retro groove color scheme - warm, earthy tones
+ * Each color helps you learn different AST node categories
+ */
+
+:host {
+  display: block;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  background: #282828;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid #3c3836;
+  overflow-x: auto;
+}
+
+code {
+  display: block;
+  white-space: pre;
+  line-height: 1.6;
+  color: #ebdbb2;
+}
+
+/* Program root: the top-level AST node containing all code */
+.Program { color: #ebdbb2; }
+
+/* class definitions: class User {} or class Admin extends User {} */
+.ClassDeclaration { color: #fabd2f; font-weight: 600; }
+
+/* class expressions: const MyClass = class {} */
+.ClassExpression { color: #fabd2f; font-weight: 600; }
+
+/* class body: { constructor() {}, methods, properties } */
+.ClassBody { color: #ebdbb2; }
+
+/* class methods: constructor(name) {} or get fullName() {} or set age(n) {} */
+.MethodDefinition { color: #83a598; font-weight: 500; }
+
+/* class properties: username = 'default'; or static version = '1.0'; */
+.PropertyDefinition { color: #8ec07c; }
+
+/* function expressions: const fn = function(x) { return x * 2; } */
+.FunctionExpression { color: #83a598; font-weight: 500; }
+
+/* function declarations: function calculate(a, b) { return a + b; } */
+.FunctionDeclaration { color: #83a598; font-weight: 600; }
+
+/* arrow functions: x => x * 2 or (a, b) => { return a + b; } */
+.ArrowFunctionExpression { color: #83a598; font-weight: 500; }
+
+/* code blocks: { statements; go; here; } */
+.BlockStatement { display: inline; }
+
+/* static initialization: static { this.init(); } in classes */
+.StaticBlock { display: inline; }
+
+/* expressions as statements: myFunction(); or x = 5; */
+.ExpressionStatement { color: #ebdbb2; }
+
+/* assignments: count = 10 or obj.prop = 'value' or arr[i] = x */
+.AssignmentExpression { color: #ebdbb2; }
+
+/* member access: obj.property or arr[0] or nested.deep.property */
+.MemberExpression { color: #8ec07c; }
+
+/* this keyword: this.value or this.doSomething() */
+.ThisExpression { color: #fb4934; font-weight: 600; }
+
+/* super keyword: super() or super.parentMethod() */
+.Super { color: #fb4934; font-weight: 600; }
+
+/* identifiers: variable names, function names, parameter names */
+.Identifier { color: #ebdbb2; }
+
+/* private identifiers: #privateField or #privateMethod in classes */
+.PrivateIdentifier { color: #8ec07c; }
+
+/* return statements: return result; or return; */
+.ReturnStatement { color: #fe8019; font-weight: 600; }
+
+/* throw statements: throw new Error('Something broke!'); */
+.ThrowStatement { color: #fb4934; font-weight: 600; }
+
+/* break statements: break; or break outerLoop; */
+.BreakStatement { color: #fe8019; font-weight: 600; }
+
+/* continue statements: continue; or continue loopLabel; */
+.ContinueStatement { color: #fe8019; font-weight: 600; }
+
+/* if statements: if (x) {...} else if (y) {...} else {...} */
+.IfStatement { color: #fe8019; font-weight: 600; }
+
+/* switch statements: switch (val) { case 1: break; default: } */
+.SwitchStatement { color: #fe8019; font-weight: 600; }
+
+/* while loops: while (condition) { doWork(); } */
+.WhileStatement { color: #fe8019; font-weight: 600; }
+
+/* do-while loops: do { work(); } while (stillGoing); */
+.DoWhileStatement { color: #fe8019; font-weight: 600; }
+
+/* for loops: for (let i = 0; i < limit; i++) {...} */
+.ForStatement { color: #fe8019; font-weight: 600; }
+
+/* for-in loops: for (const key in object) { use(key); } */
+.ForInStatement { color: #fe8019; font-weight: 600; }
+
+/* for-of loops: for (const item of items) {} or for await (const x of async) {} */
+.ForOfStatement { color: #fe8019; font-weight: 600; }
+
+/* try-catch-finally: try {...} catch (err) {...} finally {...} */
+.TryStatement { color: #fe8019; font-weight: 600; }
+
+/* with statements: with (object) {...} - avoid this! */
+.WithStatement { color: #fe8019; font-weight: 600; }
+
+/* function calls: doSomething(arg) or obj.method(x, y) */
+.CallExpression { color: #83a598; }
+
+/* binary expressions: a + b or x * y or 10 / 2 or 'hi' + 'there' */
+.BinaryExpression { color: #ebdbb2; }
+
+/* logical expressions: x && y or fallback || default or value ?? backup */
+.LogicalExpression { color: #ebdbb2; }
+
+/* unary expressions: !value or -number or typeof thing or void 0 */
+.UnaryExpression { color: #ebdbb2; }
+
+/* update expressions: counter++ or --index */
+.UpdateExpression { color: #ebdbb2; }
+
+/* variable declarations: const MAX = 100; or let total; or var legacy; */
+.VariableDeclaration { color: #fe8019; font-weight: 600; }
+
+/* variable declarators: the MAX = 100 part of const MAX = 100; */
+.VariableDeclarator { color: #ebdbb2; }
+
+/* new expressions: new Array(10) or new CustomClass(params) */
+.NewExpression { color: #fe8019; font-weight: 600; }
+
+/* literals: numbers (42), strings ('text'), booleans (true), null, regexes (/pat/g) */
+.Literal { color: #b8bb26; }
+
+/* template literals: `Hello ${name}!` or `multiline
+                                           template` */
+.TemplateLiteral { color: #b8bb26; }
+
+/* array expressions: [1, 2, 3] or [first, ...rest] */
+.ArrayExpression { color: #ebdbb2; }
+
+/* object expressions: {name: 'John', age: 30, greet() {}} */
+.ObjectExpression { color: #ebdbb2; }
+
+/* spread operator: ...array or ...object */
+.SpreadElement { color: #ebdbb2; }
+
+/* rest parameters: function test(...args) or const [...rest] = arr */
+.RestElement { color: #ebdbb2; }
+
+/* yield expressions: yield value; or yield* generator(); */
+.YieldExpression { color: #fe8019; font-weight: 600; }
+
+/* await expressions: await promise or await fetchData() */
+.AwaitExpression { color: #fe8019; font-weight: 600; }
+
+/* import declarations: import React from 'react'; or import {x} from './mod'; */
+.ImportDeclaration { color: #fe8019; font-weight: 600; }
+
+/* export declarations: export const x = 1; or export {a, b}; */
+.ExportNamedDeclaration { color: #fe8019; font-weight: 600; }
+
+/* default exports: export default MyComponent; */
+.ExportDefaultDeclaration { color: #fe8019; font-weight: 600; }
+
+/* export all: export * from './utils'; or export * as utils from './u'; */
+.ExportAllDeclaration { color: #fe8019; font-weight: 600; }
+
+/* meta properties: import.meta.url or new.target */
+.MetaProperty { color: #fabd2f; }
+
+/* ternary/conditional: isValid ? 'yes' : 'no' */
+.ConditionalExpression { color: #ebdbb2; }
+
+/* array destructuring patterns: const [first, second] = arr */
+.ArrayPattern { color: #ebdbb2; }
+
+/* object destructuring patterns: const {name, age} = person */
+.ObjectPattern { color: #ebdbb2; }
+
+/* default value assignments: function(x = 10) or const {y = 5} = obj */
+.AssignmentPattern { color: #ebdbb2; }
+
+/* sequence expressions: (a++, b++, c) */
+.SequenceExpression { color: #ebdbb2; }
+
+/* fallback styling */
+.keyword { color: #fe8019; font-weight: 600; }
+.operator { color: #ebdbb2; }
+.punctuation { color: #a89984; }
+
+/* hover effect - shows AST node type, perfect for learning! */
+span[title]:hover {
+  background: #3c3836;
+  cursor: help;
+  outline: 1px solid #fabd2f;
+}

@@ -1,0 +1,206 @@
+/**
+ * Squirrel Pie - Basic Light Theme
+ * A clean, minimalist light theme for learning AST node types
+ */
+
+:host {
+  display: block;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  overflow-x: auto;
+}
+
+code {
+  display: block;
+  white-space: pre;
+  line-height: 1.6;
+  color: #24292e;
+}
+
+/* Root program node that contains all top-level statements */
+.Program { color: #24292e; }
+
+/* class Animal {} or class Dog extends Animal {} */
+.ClassDeclaration { color: #6f42c1; font-weight: 600; }
+
+/* const MyClass = class {} or const Anonymous = class extends Base {} */
+.ClassExpression { color: #6f42c1; font-weight: 600; }
+
+/* The {...} containing constructor, methods, properties */
+.ClassBody { color: #24292e; }
+
+/* constructor(x) {} or get value() {} or set value(v) {} or method() {} */
+.MethodDefinition { color: #005cc5; font-weight: 500; }
+
+/* Class field: name = 'default'; or static count = 0; */
+.PropertyDefinition { color: #e36209; }
+
+/* const myFunc = function(x) { return x * 2; } */
+.FunctionExpression { color: #005cc5; font-weight: 500; }
+
+/* function calculateSum(a, b) { return a + b; } */
+.FunctionDeclaration { color: #005cc5; font-weight: 600; }
+
+/* (x) => x * 2 or const double = n => n * 2 */
+.ArrowFunctionExpression { color: #005cc5; font-weight: 500; }
+
+/* {...} block of statements in functions, loops, conditionals */
+.BlockStatement { display: inline; }
+
+/* static { console.log('class initialized'); } inside classes */
+.StaticBlock { display: inline; }
+
+/* Any expression used as a statement: myFunc(); or x = 5; */
+.ExpressionStatement { color: #24292e; }
+
+/* x = 10 or obj.property = 'value' or arr[0] = 1 */
+.AssignmentExpression { color: #24292e; }
+
+/* obj.property or array[index] or obj?.optionalProp */
+.MemberExpression { color: #e36209; }
+
+/* The this keyword: this.property or this.method() */
+.ThisExpression { color: #d73a49; font-weight: 600; }
+
+/* The super keyword: super() or super.method() */
+.Super { color: #d73a49; font-weight: 600; }
+
+/* Variable, function, parameter names: userName, calculateTotal */
+.Identifier { color: #24292e; }
+
+/* Private class fields: #privateData or #secretMethod */
+.PrivateIdentifier { color: #e36209; }
+
+/* return someValue; or return; */
+.ReturnStatement { color: #d73a49; font-weight: 600; }
+
+/* throw new Error('message'); */
+.ThrowStatement { color: #d73a49; font-weight: 600; }
+
+/* break; or break labelName; */
+.BreakStatement { color: #d73a49; font-weight: 600; }
+
+/* continue; or continue labelName; */
+.ContinueStatement { color: #d73a49; font-weight: 600; }
+
+/* if (x > 0) {...} else if (x < 0) {...} else {...} */
+.IfStatement { color: #d73a49; font-weight: 600; }
+
+/* switch (day) { case 'Mon': break; default: break; } */
+.SwitchStatement { color: #d73a49; font-weight: 600; }
+
+/* while (count < 10) { count++; } */
+.WhileStatement { color: #d73a49; font-weight: 600; }
+
+/* do { count++; } while (count < 10); */
+.DoWhileStatement { color: #d73a49; font-weight: 600; }
+
+/* for (let i = 0; i < arr.length; i++) {...} */
+.ForStatement { color: #d73a49; font-weight: 600; }
+
+/* for (const key in object) {...} */
+.ForInStatement { color: #d73a49; font-weight: 600; }
+
+/* for (const item of array) {...} or for await (const x of async) {...} */
+.ForOfStatement { color: #d73a49; font-weight: 600; }
+
+/* try {...} catch (error) {...} finally {...} */
+.TryStatement { color: #d73a49; font-weight: 600; }
+
+/* with (object) {...} - avoid using, but valid syntax */
+.WithStatement { color: #d73a49; font-weight: 600; }
+
+/* myFunction(arg1, arg2) or obj.method(x, y) */
+.CallExpression { color: #005cc5; }
+
+/* 5 + 3 or x * y or 'hello' + 'world' */
+.BinaryExpression { color: #24292e; }
+
+/* x && y or result || fallback or value ?? default */
+.LogicalExpression { color: #24292e; }
+
+/* !true or -number or typeof variable or delete obj.prop */
+.UnaryExpression { color: #24292e; }
+
+/* i++ or ++i or count-- or --count */
+.UpdateExpression { color: #24292e; }
+
+/* const x = 5; or let name; or var old; */
+.VariableDeclaration { color: #d73a49; font-weight: 600; }
+
+/* The x = 5 part of const x = 5; */
+.VariableDeclarator { color: #24292e; }
+
+/* new Date() or new MyClass(arg) */
+.NewExpression { color: #d73a49; font-weight: 600; }
+
+/* 42, 'string', true, false, null, /regex/gi */
+.Literal { color: #032f62; }
+
+/* `Hello ${name}!` or `multi
+   line
+   string` */
+.TemplateLiteral { color: #032f62; }
+
+/* [1, 2, 3] or [first, ...rest] */
+.ArrayExpression { color: #24292e; }
+
+/* {name: 'John', age: 30, greet() {}} */
+.ObjectExpression { color: #24292e; }
+
+/* ...array or ...object in [1, ...arr] or {x, ...obj} */
+.SpreadElement { color: #24292e; }
+
+/* ...rest in function params or destructuring: (...args) or [...rest] */
+.RestElement { color: #24292e; }
+
+/* yield value; in generator functions or yield* otherGenerator(); */
+.YieldExpression { color: #d73a49; font-weight: 600; }
+
+/* await promise or await fetch('/api') in async functions */
+.AwaitExpression { color: #d73a49; font-weight: 600; }
+
+/* import React from 'react'; or import {x, y} from './mod'; */
+.ImportDeclaration { color: #d73a49; font-weight: 600; }
+
+/* export const x = 1; or export {a, b}; */
+.ExportNamedDeclaration { color: #d73a49; font-weight: 600; }
+
+/* export default function() {} or export default MyClass; */
+.ExportDefaultDeclaration { color: #d73a49; font-weight: 600; }
+
+/* export * from './module'; or export * as name from './mod'; */
+.ExportAllDeclaration { color: #d73a49; font-weight: 600; }
+
+/* import.meta.url or new.target */
+.MetaProperty { color: #6f42c1; }
+
+/* x > 0 ? 'positive' : 'negative' */
+.ConditionalExpression { color: #24292e; }
+
+/* [a, b, c] = array or [first, ...rest] = arr */
+.ArrayPattern { color: #24292e; }
+
+/* {name, age} = person or {x: posX, y: posY} = coords */
+.ObjectPattern { color: #24292e; }
+
+/* function greet(name = 'Guest') or const {x = 0} = obj */
+.AssignmentPattern { color: #24292e; }
+
+/* (a, b, c) - comma-separated expressions */
+.SequenceExpression { color: #24292e; }
+
+/* Fallback styles for edge cases */
+.keyword { color: #d73a49; font-weight: 600; }
+.operator { color: #24292e; }
+.punctuation { color: #6a737d; }
+
+/* Hover to reveal AST node type - great for learning! */
+span[title]:hover {
+  background: #fff3cd;
+  cursor: help;
+  outline: 1px solid #ffc107;
+}

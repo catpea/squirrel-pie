@@ -1,341 +1,407 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="AST-based JavaScript syntax highlighter Web Component using Acorn">
-    <meta name="keywords" content="javascript, syntax highlighter, ast, acorn, web component">
-    <meta name="author" content="catpea">
-    <title>Squirrel Pie - AST-based JavaScript Syntax Highlighter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
-        color: #d4d4d4;
-        line-height: 1.6;
-      }
-      header {
-        text-align: center;
-        padding: 60px 20px 40px;
-        background: linear-gradient(135deg, #252526 0%, #1e1e1e 100%);
-        border-bottom: 3px solid #4ec9b0;
-      }
-      header h1 {
-        font-size: 3.5rem;
-        color: #4ec9b0;
-        margin-bottom: 10px;
-        font-weight: 700;
-      }
-      header p {
-        font-size: 1.3rem;
-        color: #9cdcfe;
-        margin-bottom: 30px;
-      }
-      .hero-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .btn {
-        padding: 12px 30px;
-        border: none;
-        border-radius: 6px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
-      }
-      .btn-primary {
-        background: #4ec9b0;
-        color: #1e1e1e;
-      }
-      .btn-primary:hover {
-        background: #5ddbbe;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(78, 201, 176, 0.3);
-      }
-      .btn-secondary {
-        background: transparent;
-        color: #4ec9b0;
-        border: 2px solid #4ec9b0;
-      }
-      .btn-secondary:hover {
-        background: rgba(78, 201, 176, 0.1);
-        transform: translateY(-2px);
-      }
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 20px;
-      }
-      section {
-        margin-bottom: 60px;
-      }
-      h2 {
-        color: #dcdcaa;
-        font-size: 2rem;
-        margin-bottom: 20px;
-        border-bottom: 2px solid #3e3e42;
-        padding-bottom: 10px;
-      }
-      h3 {
-        color: #4ec9b0;
-        font-size: 1.5rem;
-        margin: 30px 0 15px;
-      }
-      .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        margin-top: 30px;
-      }
-      .feature-card {
-        background: #252526;
-        padding: 25px;
-        border-radius: 8px;
-        border: 1px solid #3e3e42;
-        transition: all 0.3s ease;
-      }
-      .feature-card:hover {
-        border-color: #4ec9b0;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 20px rgba(78, 201, 176, 0.2);
-      }
-      .feature-card h3 {
-        margin-top: 0;
-        font-size: 1.2rem;
-      }
-      .code-example {
-        background: #252526;
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid #3e3e42;
-        margin: 20px 0;
-      }
-      code:not(squirrel-pie code) {
-        background: #2d2d30;
-        padding: 3px 8px;
-        border-radius: 4px;
-        color: #ce9178;
-        font-family: 'Courier New', monospace;
-      }
-      pre {
-        background: #1e1e1e;
-        padding: 15px;
-        border-radius: 6px;
-        overflow-x: auto;
-        border: 1px solid #3e3e42;
-      }
-      pre code {
-        background: none;
-        padding: 0;
-        color: #d4d4d4;
-      }
-      .install-section {
-        background: #252526;
-        padding: 30px;
-        border-radius: 8px;
-        border-left: 4px solid #4ec9b0;
-      }
-      footer {
-        background: #1e1e1e;
-        text-align: center;
-        padding: 40px 20px;
-        border-top: 2px solid #3e3e42;
-        margin-top: 60px;
-      }
-      footer p {
-        color: #808080;
-      }
-      footer a {
-        color: #4ec9b0;
-        text-decoration: none;
-      }
-      footer a:hover {
-        color: #5ddbbe;
-        text-decoration: underline;
-      }
-      .demo-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 30px;
-        margin-top: 30px;
-      }
-      @media (max-width: 768px) {
-        header h1 {
-          font-size: 2.5rem;
-        }
-        header p {
-          font-size: 1.1rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>🐿️ Squirrel Pie 🥧</h1>
-      <p>AST-based JavaScript Syntax Highlighter</p>
-      <div class="hero-buttons">
-        <a href="https://github.com/catpea/squirrel-pie" class="btn btn-primary">View on GitHub</a>
-        <a href="https://www.npmjs.com/package/squirrel-pie" class="btn btn-secondary">NPM Package</a>
-        <a href="#demo" class="btn btn-secondary">Quick Demo</a>
-        <a href="demo.html" class="btn btn-secondary">🐿️ Kitchen Sink</a>
-      </div>
-    </header>
 
-    <div class="container">
-      <section>
-        <h2>✨ Features</h2>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <h3>🎨 AST-Aware</h3>
-            <p>Unlike regex-based highlighters, Squirrel Pie parses your code into an Abstract Syntax Tree for true semantic understanding.</p>
-          </div>
-          <div class="feature-card">
-            <h3>🔍 Interactive</h3>
-            <p>Hover over any element to see its AST node type. Perfect for learning and debugging.</p>
-          </div>
-          <div class="feature-card">
-            <h3>📦 Zero Dependencies</h3>
-            <p>Just Acorn for parsing. No heavy frameworks or libraries needed.</p>
-          </div>
-          <div class="feature-card">
-            <h3>🎯 Encapsulated</h3>
-            <p>Built with Shadow DOM for complete style encapsulation. Won't interfere with your styles.</p>
-          </div>
-          <div class="feature-card">
-            <h3>⚡ Dynamic</h3>
-            <p>Responds to attribute changes in real-time. Perfect for live editors.</p>
-          </div>
-          <div class="feature-card">
-            <h3>🌐 Modern</h3>
-            <p>Supports ES2022 syntax including classes, async/await, and more.</p>
-          </div>
-        </div>
-      </section>
 
-      <section class="install-section">
-        <h2>🚀 Quick Start</h2>
-        <h3>Via CDN</h3>
-        <pre><code>&lt;script type="module"&gt;
-  import 'https://cdn.jsdelivr.net/npm/squirrel-pie@latest/index.js';
-&lt;/script&gt;
-
-&lt;squirrel-pie&gt;
-  function hello(name) {
-    return `Hello, ${name}!`;
-  }
-&lt;/squirrel-pie&gt;</code></pre>
-
-        <h3>Via npm</h3>
-        <pre><code>npm install squirrel-pie</code></pre>
-        <pre><code>import 'squirrel-pie';</code></pre>
-      </section>
-
-      <section id="demo">
-        <h2>🎪 Live Demos</h2>
-
-        <div class="demo-grid">
-          <div class="code-example">
-            <h3>Simple Function</h3>
-            <squirrel-pie>
-              function greet(name) {
-                return `Hello, ${name}!`;
+        <!doctype html>
+        <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="description" content="AST-based JavaScript syntax highlighter Web Component using Acorn">
+            <meta name="keywords" content="javascript, syntax highlighter, ast, acorn, web component">
+            <meta name="author" content="catpea">
+            <title>Squirrel Pie - AST-based JavaScript Syntax Highlighter</title>
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
+            <style>
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
               }
-            </squirrel-pie>
-          </div>
-
-          <div class="code-example">
-            <h3>ES6 Class</h3>
-            <squirrel-pie>
-              class Circle {
-                constructor(radius) {
-                  this.radius = radius;
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
+                color: #d4d4d4;
+                line-height: 1.6;
+              }
+              header {
+                text-align: center;
+                padding: 60px 20px 40px;
+                background: linear-gradient(135deg, #252526 0%, #1e1e1e 100%);
+                border-bottom: 3px solid #4ec9b0;
+              }
+              header h1 {
+                font-size: 3.5rem;
+                color: #4ec9b0;
+                margin-bottom: 10px;
+                font-weight: 700;
+              }
+              header p {
+                font-size: 1.3rem;
+                color: #9cdcfe;
+                margin-bottom: 30px;
+              }
+              .hero-buttons {
+                display: flex;
+                gap: 15px;
+                justify-content: center;
+                flex-wrap: wrap;
+              }
+              .btn {
+                padding: 12px 30px;
+                border: none;
+                border-radius: 6px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                transition: all 0.3s ease;
+              }
+              .btn-primary {
+                background: #4ec9b0;
+                color: #1e1e1e;
+              }
+              .btn-primary:hover {
+                background: #5ddbbe;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(78, 201, 176, 0.3);
+              }
+              .btn-secondary {
+                background: transparent;
+                color: #4ec9b0;
+                border: 2px solid #4ec9b0;
+              }
+              .btn-secondary:hover {
+                background: rgba(78, 201, 176, 0.1);
+                transform: translateY(-2px);
+              }
+              .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 40px 20px;
+              }
+              section {
+                margin-bottom: 60px;
+              }
+              h2 {
+                color: #dcdcaa;
+                font-size: 2rem;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #3e3e42;
+                padding-bottom: 10px;
+              }
+              h3 {
+                color: #4ec9b0;
+                font-size: 1.5rem;
+                margin: 30px 0 15px;
+              }
+              .feature-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+                margin-top: 30px;
+              }
+              .feature-card {
+                background: #252526;
+                padding: 25px;
+                border-radius: 8px;
+                border: 1px solid #3e3e42;
+                transition: all 0.3s ease;
+              }
+              .feature-card:hover {
+                border-color: #4ec9b0;
+                transform: translateY(-3px);
+                box-shadow: 0 5px 20px rgba(78, 201, 176, 0.2);
+              }
+              .feature-card h3 {
+                margin-top: 0;
+                font-size: 1.2rem;
+              }
+              .code-example {
+                background: #252526;
+                padding: 20px;
+                border-radius: 8px;
+                border: 1px solid #3e3e42;
+                margin: 20px 0;
+              }
+              code:not(squirrel-pie code) {
+                background: #2d2d30;
+                padding: 3px 8px;
+                border-radius: 4px;
+                color: #ce9178;
+                font-family: 'Courier New', monospace;
+              }
+              pre {
+                background: #1e1e1e;
+                padding: 15px;
+                border-radius: 6px;
+                overflow-x: auto;
+                border: 1px solid #3e3e42;
+              }
+              pre code {
+                background: none;
+                padding: 0;
+                color: #d4d4d4;
+              }
+              .install-section {
+                background: #252526;
+                padding: 30px;
+                border-radius: 8px;
+                border-left: 4px solid #4ec9b0;
+              }
+              footer {
+                background: #1e1e1e;
+                text-align: center;
+                padding: 40px 20px;
+                border-top: 2px solid #3e3e42;
+                margin-top: 60px;
+              }
+              footer p {
+                color: #808080;
+              }
+              footer a {
+                color: #4ec9b0;
+                text-decoration: none;
+              }
+              footer a:hover {
+                color: #5ddbbe;
+                text-decoration: underline;
+              }
+              .demo-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 30px;
+              }
+              @media (max-width: 768px) {
+                header h1 {
+                  font-size: 2.5rem;
                 }
-
-                get area() {
-                  return Math.PI * this.radius ** 2;
-                }
-
-                get circumference() {
-                  return 2 * Math.PI * this.radius;
+                header p {
+                  font-size: 1.1rem;
                 }
               }
-            </squirrel-pie>
-          </div>
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>🐿️ Squirrel Pie</h1>
+              <p>AST-based JavaScript Syntax Highlighter</p>
+              <div class="hero-buttons">
+                <a href="https://github.com/catpea/squirrel-pie" class="btn btn-primary">View on GitHub</a>
+                <a href="https://www.npmjs.com/package/squirrel-pie" class="btn btn-secondary">NPM Package</a>
+                <a href="#demo" class="btn btn-secondary">See Demo</a>
+                <a href="demo.html" class="btn btn-secondary">🐿️ Kitchen Sink</a>
+              </div>
+            </header>
 
-          <div class="code-example">
-            <h3>Arrow Functions & Destructuring</h3>
-            <squirrel-pie>
-              const users = [
-                { name: 'Alice', age: 30 },
-                { name: 'Bob', age: 25 }
-              ];
+            <div class="container">
+              <section>
+                <h2>✨ Features</h2>
+                <div class="feature-grid">
+                  <div class="feature-card">
+                    <h3>🎨 AST-Aware</h3>
+                    <p>Unlike regex-based highlighters, Squirrel Pie parses your code into an Abstract Syntax Tree for true semantic understanding.</p>
+                  </div>
+                  <div class="feature-card">
+                    <h3>🔍 Interactive</h3>
+                    <p>Hover over any element to see its AST node type. Perfect for learning and debugging.</p>
+                  </div>
+                  <div class="feature-card">
+                    <h3>📦 Zero Dependencies</h3>
+                    <p>Just Acorn for parsing. No heavy frameworks or libraries needed.</p>
+                  </div>
+                  <div class="feature-card">
+                    <h3>🎯 Encapsulated</h3>
+                    <p>Built with Shadow DOM for complete style encapsulation. Won't interfere with your styles.</p>
+                  </div>
+                  <div class="feature-card">
+                    <h3>⚡ Dynamic</h3>
+                    <p>Responds to attribute changes in real-time. Perfect for live editors.</p>
+                  </div>
+                  <div class="feature-card">
+                    <h3>🌐 Modern</h3>
+                    <p>Supports ES2022 syntax including classes, async/await, and more.</p>
+                  </div>
+                </div>
+              </section>
 
-              const names = users.map(({ name }) => name);
-              const adults = users.filter(u => u.age >= 18);
-            </squirrel-pie>
-          </div>
+              <section class="install-section">
+                <h2>🚀 Quick Start</h2>
+                <h3>Via CDN</h3>
+                <pre><code>&lt;script type="module"&gt;
+          import 'https://cdn.jsdelivr.net/npm/squirrel-pie@latest/index.js';
+        &lt;/script&gt;
 
-          <div class="code-example">
-            <h3>Async/Await</h3>
-            <squirrel-pie>
-              async function fetchUser(id) {
-                try {
-                  const response = await fetch(`/api/users/${id}`);
-                  const user = await response.json();
-                  return user;
-                } catch (error) {
-                  console.error('Failed to fetch user:', error);
-                  throw error;
-                }
-              }
-            </squirrel-pie>
-          </div>
-        </div>
-      </section>
+        &lt;squirrel-pie&gt;
+          function hello(name) {
+            return `Hello, ${name}!`;
+          }
+        &lt;/squirrel-pie&gt;</code></pre>
 
-      <section>
-        <h2>📖 Documentation</h2>
-        <p>For detailed documentation, API reference, and more examples, visit the <a href="https://github.com/catpea/squirrel-pie" style="color: #4ec9b0;">GitHub repository</a>.</p>
+                <h3>Via npm</h3>
+                <pre><code>npm install squirrel-pie</code></pre>
+                <pre><code>import 'squirrel-pie';</code></pre>
+              </section>
 
-        <h3>Basic Usage</h3>
-        <pre><code>&lt;!-- Using slot content --&gt;
-&lt;squirrel-pie&gt;
-  const x = 42;
-&lt;/squirrel-pie&gt;
+              <section id="demo">
+                <h2>🎪 Live Demos</h2>
 
-&lt;!-- Using value attribute --&gt;
-&lt;squirrel-pie value="const x = 42;"&gt;&lt;/squirrel-pie&gt;
+                <div class="demo-grid">
+                  <div class="code-example">
+                    <h3>Simple Function</h3>
+                    <squirrel-pie>
+                      function greet(name) {
+                        return `Hello, ${name}!`;
+                      }
+                    </squirrel-pie>
+                  </div>
 
-&lt;!-- Dynamic updates --&gt;
-&lt;script&gt;
-  document.querySelector('squirrel-pie')
-    .setAttribute('value', 'const y = 100;');
-&lt;/script&gt;</code></pre>
-      </section>
-    </div>
+                  <div class="code-example">
+                    <h3>ES6 Class</h3>
+                    <squirrel-pie>
+                      class Circle {
+                        constructor(radius) {
+                          this.radius = radius;
+                        }
 
-    <footer>
-      <p>Made with 🌰 by <a href="https://github.com/catpea">catpea</a></p>
-      <p>
-        <a href="https://github.com/catpea/squirrel-pie">GitHub</a> •
-        <a href="https://www.npmjs.com/package/squirrel-pie">NPM</a> •
-        <a href="https://github.com/catpea/squirrel-pie/issues">Issues</a>
-      </p>
-      <p style="margin-top: 20px; font-size: 0.9rem;">MIT License © 2025</p>
-    </footer>
+                        get area() {
+                          return Math.PI * this.radius ** 2;
+                        }
+
+                        get circumference() {
+                          return 2 * Math.PI * this.radius;
+                        }
+                      }
+                    </squirrel-pie>
+                  </div>
+
+                  <div class="code-example">
+                    <h3>Arrow Functions & Destructuring</h3>
+                    <squirrel-pie>
+                      const users = [
+                        { name: 'Alice', age: 30 },
+                        { name: 'Bob', age: 25 }
+                      ];
+
+                      const names = users.map(({ name }) => name);
+                      const adults = users.filter(u => u.age >= 18);
+                    </squirrel-pie>
+                  </div>
+
+                  <div class="code-example">
+                    <h3>Async/Await</h3>
+                    <squirrel-pie>
+                      async function fetchUser(id) {
+                        try {
+                          const response = await fetch(`/api/users/${id}`);
+                          const user = await response.json();
+                          return user;
+                        } catch (error) {
+                          console.error('Failed to fetch user:', error);
+                          throw error;
+                        }
+                      }
+                    </squirrel-pie>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h2>🎨 Themes - Learn AST Through Color</h2>
+                <p>Each theme teaches you AST node types through color! Hover over any code element to see its AST node type. The commented CSS files are perfect for learning how JavaScript is structured at the AST level.</p>
+
+                <h3>Default Theme (VS Code Dark+)</h3>
+                <div class="code-example">
+                  <squirrel-pie>
+                    class Animal {
+                      constructor(name) {
+                        this.name = name;
+                      }
+
+                      speak() {
+                        return `${this.name} makes a sound`;
+                      }
+                    }
+                  </squirrel-pie>
+                </div>
+
+                <h3>Basic Light Theme</h3>
+                <p>Clean, minimalist light theme perfect for documentation</p>
+                <div class="code-example">
+                  <squirrel-pie theme="basic.css">
+                    const fibonacci = (n) => {
+                      if (n <= 1) return n;
+                      return fibonacci(n - 1) + fibonacci(n - 2);
+                    };
+                  </squirrel-pie>
+                </div>
+
+                <h3>Solarized Dark</h3>
+                <p>Easy on the eyes with the classic Solarized palette</p>
+                <div class="code-example">
+                  <squirrel-pie theme="solarized.css">
+                    async function* asyncGenerator() {
+                      let i = 0;
+                      while (i < 3) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        yield i++;
+                      }
+                    }
+                  </squirrel-pie>
+                </div>
+
+                <h3>Gruvbox Dark</h3>
+                <p>Retro groove with warm, earthy tones</p>
+                <div class="code-example">
+                  <squirrel-pie theme="gruvbox.css">
+                    const processData = (items) => {
+                      return items
+                        .filter(x => x.active)
+                        .map(x => ({ ...x, processed: true }))
+                        .reduce((acc, curr) => acc + curr.value, 0);
+                    };
+                  </squirrel-pie>
+                </div>
+
+                <h3>Create Your Own Theme!</h3>
+                <p>Download any theme CSS file, modify the colors, and use it with the <code>theme</code> attribute. Each CSS class corresponds to an AST node type - perfect for learning!</p>
+                <pre><code>&lt;squirrel-pie theme="./my-custom-theme.css"&gt;
+          your code here
+        &lt;/squirrel-pie&gt;</code></pre>
+              </section>
+
+              <section>
+                <h2>📖 Documentation</h2>
+                <p>For detailed documentation, API reference, and more examples, visit the <a href="https://github.com/catpea/squirrel-pie" style="color: #4ec9b0;">GitHub repository</a>.</p>
+
+                <h3>Basic Usage</h3>
+                <pre><code>&lt;!-- Using slot content --&gt;
+        &lt;squirrel-pie&gt;
+          const x = 42;
+        &lt;/squirrel-pie&gt;
+
+        &lt;!-- Using value attribute --&gt;
+        &lt;squirrel-pie value="const x = 42;"&gt;&lt;/squirrel-pie&gt;
+
+        &lt;!-- Dynamic updates --&gt;
+        &lt;script&gt;
+          document.querySelector('squirrel-pie')
+            .setAttribute('value', 'const y = 100;');
+        &lt;/script&gt;</code></pre>
+              </section>
+            </div>
+
+            <footer>
+              <p>Made with 🌰 by <a href="https://github.com/catpea">catpea</a></p>
+              <p>
+                <a href="https://github.com/catpea/squirrel-pie">GitHub</a> •
+                <a href="https://www.npmjs.com/package/squirrel-pie">NPM</a> •
+                <a href="https://github.com/catpea/squirrel-pie/issues">Issues</a>
+              </p>
+              <p style="margin-top: 20px; font-size: 0.9rem;">MIT License © 2025</p>
+            </footer>
 
     <script type="module" src="./index.js"></script>
 
-  </body>
-</html>
+          </body>
+        </html>

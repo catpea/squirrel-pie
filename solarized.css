@@ -1,0 +1,206 @@
+/**
+ * Squirrel Pie - Solarized Dark Theme
+ * Based on Ethan Schoonover's Solarized color scheme
+ * Perfect for learning AST with easy-on-the-eyes colors
+ */
+
+:host {
+  display: block;
+  font-family: 'Fira Code', 'Source Code Pro', monospace;
+  background: #002b36;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid #073642;
+  overflow-x: auto;
+}
+
+code {
+  display: block;
+  white-space: pre;
+  line-height: 1.6;
+  color: #839496;
+}
+
+/* Root program containing all statements: { type: 'Program', body: [...] } */
+.Program { color: #839496; }
+
+/* class Rectangle {} or class Square extends Rectangle {} */
+.ClassDeclaration { color: #b58900; font-weight: 600; }
+
+/* const Animal = class { constructor() {} } */
+.ClassExpression { color: #b58900; font-weight: 600; }
+
+/* The body of a class: { constructor() {}, method() {} } */
+.ClassBody { color: #839496; }
+
+/* Class methods: constructor(x, y) {} or get area() {} or set width(w) {} */
+.MethodDefinition { color: #268bd2; font-weight: 500; }
+
+/* Class properties: species = 'human'; or static count = 0; */
+.PropertyDefinition { color: #2aa198; }
+
+/* const add = function(a, b) { return a + b; } */
+.FunctionExpression { color: #268bd2; font-weight: 500; }
+
+/* function multiply(x, y) { return x * y; } */
+.FunctionDeclaration { color: #268bd2; font-weight: 600; }
+
+/* const square = x => x * x or (a, b) => a + b */
+.ArrowFunctionExpression { color: #268bd2; font-weight: 500; }
+
+/* Curly braces with statements: { const x = 1; return x; } */
+.BlockStatement { display: inline; }
+
+/* static { console.log('initialized'); } in class body */
+.StaticBlock { display: inline; }
+
+/* Expression as statement: functionCall(); or assignment; */
+.ExpressionStatement { color: #839496; }
+
+/* Variable assignment: total = 100 or user.name = 'Alice' */
+.AssignmentExpression { color: #839496; }
+
+/* Property access: object.property or array[index] or optional?.chain */
+.MemberExpression { color: #2aa198; }
+
+/* this keyword in class methods: this.value or this.compute() */
+.ThisExpression { color: #dc322f; font-weight: 600; }
+
+/* super keyword in subclasses: super() or super.parentMethod() */
+.Super { color: #dc322f; font-weight: 600; }
+
+/* Names: variableName, functionName, paramName */
+.Identifier { color: #839496; }
+
+/* Private class members: #privateField, #secretMethod() */
+.PrivateIdentifier { color: #2aa198; }
+
+/* return statement: return result; or return; */
+.ReturnStatement { color: #859900; font-weight: 600; }
+
+/* throw statement: throw new Error('Oops!'); */
+.ThrowStatement { color: #dc322f; font-weight: 600; }
+
+/* break statement: break; or break loopLabel; */
+.BreakStatement { color: #859900; font-weight: 600; }
+
+/* continue statement: continue; or continue loopLabel; */
+.ContinueStatement { color: #859900; font-weight: 600; }
+
+/* if conditional: if (x > 0) {...} else if (x < 0) {...} else {...} */
+.IfStatement { color: #859900; font-weight: 600; }
+
+/* switch statement: switch (x) { case 1: break; default: break; } */
+.SwitchStatement { color: #859900; font-weight: 600; }
+
+/* while loop: while (running) { doWork(); } */
+.WhileStatement { color: #859900; font-weight: 600; }
+
+/* do-while loop: do { work(); } while (condition); */
+.DoWhileStatement { color: #859900; font-weight: 600; }
+
+/* for loop: for (let i = 0; i < 10; i++) {...} */
+.ForStatement { color: #859900; font-weight: 600; }
+
+/* for-in loop: for (const key in object) {...} */
+.ForInStatement { color: #859900; font-weight: 600; }
+
+/* for-of loop: for (const value of array) {...} */
+.ForOfStatement { color: #859900; font-weight: 600; }
+
+/* try-catch: try {...} catch (e) {...} finally {...} */
+.TryStatement { color: #859900; font-weight: 600; }
+
+/* with statement: with (obj) {...} - rarely used */
+.WithStatement { color: #859900; font-weight: 600; }
+
+/* Function calls: console.log('hi') or myFunc(1, 2, 3) */
+.CallExpression { color: #268bd2; }
+
+/* Binary operations: 5 + 3 or x * y or 'hello' + 'world' */
+.BinaryExpression { color: #839496; }
+
+/* Logical operations: x && y or result || default or val ?? fallback */
+.LogicalExpression { color: #839496; }
+
+/* Unary operations: !flag or -num or typeof x or delete obj.key */
+.UnaryExpression { color: #839496; }
+
+/* Increment/decrement: i++ or --count */
+.UpdateExpression { color: #839496; }
+
+/* Variable declarations: const PI = 3.14; or let count; or var old; */
+.VariableDeclaration { color: #859900; font-weight: 600; }
+
+/* The PI = 3.14 part of const PI = 3.14; */
+.VariableDeclarator { color: #839496; }
+
+/* Object instantiation: new Date() or new MyClass(args) */
+.NewExpression { color: #859900; font-weight: 600; }
+
+/* Literal values: 42, 'text', true, null, /pattern/gi */
+.Literal { color: #2aa198; }
+
+/* Template strings: `Hello ${name}` or `Line 1
+                                         Line 2` */
+.TemplateLiteral { color: #2aa198; }
+
+/* Array literals: [1, 2, 3] or ['a', ...moreItems] */
+.ArrayExpression { color: #839496; }
+
+/* Object literals: {x: 10, y: 20, method() {}} */
+.ObjectExpression { color: #839496; }
+
+/* Spread in expressions: [...arr] or {...obj} */
+.SpreadElement { color: #839496; }
+
+/* Rest in patterns: function(...args) or const [...rest] = arr */
+.RestElement { color: #839496; }
+
+/* yield in generators: yield value; or yield* delegateGenerator(); */
+.YieldExpression { color: #859900; font-weight: 600; }
+
+/* await in async functions: await fetchData() or await promise */
+.AwaitExpression { color: #859900; font-weight: 600; }
+
+/* import statements: import {x, y} from 'module'; */
+.ImportDeclaration { color: #859900; font-weight: 600; }
+
+/* named exports: export const x = 1; or export {a, b}; */
+.ExportNamedDeclaration { color: #859900; font-weight: 600; }
+
+/* default exports: export default class MyClass {} */
+.ExportDefaultDeclaration { color: #859900; font-weight: 600; }
+
+/* export all: export * from 'module'; */
+.ExportAllDeclaration { color: #859900; font-weight: 600; }
+
+/* Meta properties: import.meta.url or new.target in constructors */
+.MetaProperty { color: #b58900; }
+
+/* Ternary operator: score >= 60 ? 'pass' : 'fail' */
+.ConditionalExpression { color: #839496; }
+
+/* Array destructuring: const [a, b] = arr or [x, ...rest] = data */
+.ArrayPattern { color: #839496; }
+
+/* Object destructuring: const {name, age} = user or {x: posX} = point */
+.ObjectPattern { color: #839496; }
+
+/* Default parameters: function greet(name = 'Guest') or {x = 0} = obj */
+.AssignmentPattern { color: #839496; }
+
+/* Comma operator: (x++, y++, z++) */
+.SequenceExpression { color: #839496; }
+
+/* Generic keyword styling */
+.keyword { color: #859900; font-weight: 600; }
+.operator { color: #839496; }
+.punctuation { color: #586e75; }
+
+/* Hover effect - highlights and shows AST type in tooltip */
+span[title]:hover {
+  background: #073642;
+  cursor: help;
+  outline: 1px solid #268bd2;
+}
