@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "squirrel-pie",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AST based JavaScript syntax highlighter WebComponent",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,11 @@
     "save": "git add .; git commit -m 'Updated Release'; npm version patch; npm publish; git push --follow-tags;",
     "test": "node test"
   },
-  "keywords": ["ast", "acorn", "highlight"],
+  "keywords": [
+    "ast",
+    "acorn",
+    "highlight"
+  ],
   "author": "catpea (https://github.com/catpea)",
   "license": "MIT",
   "repository": {
