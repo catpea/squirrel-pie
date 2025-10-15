@@ -1,4 +1,4 @@
-# 🐿️ Squirrel Pie
+# 🐿️ Squirrel Pie 2.0 🥧
 
 An AST-based JavaScript syntax highlighter built as a Web Component using [Acorn](https://github.com/acornjs/acorn).
 
@@ -59,16 +59,19 @@ Choose wisely.
 
 ---
 
-## Features
+# 🐿️ Squirrel Pie Features
 
 - 🎨 **AST-aware highlighting** - Understands code structure, not just patterns
 - 🔍 **Interactive tooltips** - Hover to see AST node types
+- 🌳 **Click-to-explore AST** - Click any code element to see its full AST path (NEW!)
+- 📋 **Copy AST paths** - One-click copy of node paths for building tools
 - 📦 **Zero dependencies** - Just Acorn for parsing
 - 🎯 **Shadow DOM** - Fully encapsulated styles
 - ♻️ **Auto-dedent** - Automatically removes indentation
 - ⚡ **Dynamic updates** - Responds to attribute changes
 - 🌐 **ES2022 support** - Modern JavaScript syntax
 - 🚀 **Complete coverage** - All Acorn AST node types supported
+- 🎨 **Themeable** - Multiple themes + create your own
 
 ## Supported JavaScript Features
 
@@ -155,6 +158,33 @@ import 'squirrel-pie';
 ```html
 <squirrel-pie value="const sum = (a, b) => a + b;"></squirrel-pie>
 ```
+
+### Interactive AST Exploration (NEW! 🌳)
+
+**Click any part of the code** to see its AST path! Perfect for learning and building tools.
+
+```html
+<squirrel-pie>
+  class Calculator {
+    add(a, b) {
+      return a + b;
+    }
+  }
+</squirrel-pie>
+```
+
+Click on different elements to see:
+- **Node Type**: `MethodDefinition`, `ReturnStatement`, `BinaryExpression`, etc.
+- **AST Path**: `Program > ClassDeclaration > ClassBody > MethodDefinition`
+- **Array Path**: `body[0].body.body[0]` (for programmatic access)
+- **Node Properties**: `kind: "method"`, `static: false`, `computed: false`
+
+Each piece of information has a **📋 copy button** - perfect for:
+- Learning AST structure
+- Writing ESLint rules
+- Building Babel plugins
+- Creating code transformations
+- Understanding how parsers work
 
 ### Dynamic Updates
 
@@ -297,6 +327,47 @@ All 60+ AST node types are available as CSS classes:
 **Literals:** `Literal`, `TemplateLiteral`
 
 **And many more!** See the theme CSS files for complete documentation.
+
+## The Learning Path 🎓
+
+Squirrel Pie is designed to take you from "What's an AST?" to "I can write code transformations!" through a gentle, interactive learning experience:
+
+### Level 1: Discovery (Hover)
+**What you do:** Hover over code to see node types
+**What you learn:** "Oh, `obj.method()` is a CallExpression!"
+**Time:** 5 minutes
+
+### Level 2: Exploration (Click)
+**What you do:** Click code elements to see full AST paths
+**What you learn:** How nodes relate to each other in the tree
+**Time:** 15 minutes
+
+### Level 3: Understanding (Themes)
+**What you do:** Customize or create a theme
+**What you learn:** All node types and their purposes through CSS comments
+**Time:** 1 hour
+
+### Level 4: Application (Building Tools)
+**What you do:** Use the copied AST paths to write transforms
+**What you learn:** The visitor pattern, AST traversal, code modifications
+**Time:** Ongoing journey!
+
+### Real Example:
+
+```javascript
+// You click this code:
+const user = users.find(u => u.id === 123);
+
+// Squirrel Pie shows you:
+// Node Type: CallExpression
+// AST Path: Program > VariableDeclaration > VariableDeclarator > CallExpression
+// Array Path: body[0].declarations[0].init
+
+// Now you know how to find all .find() calls in your codebase!
+// You can write an ESLint rule or Babel transform using this exact path.
+```
+
+This progression is **intentional** - we expose you to AST concepts gently through familiar interfaces (colors, clicks) rather than throwing you into documentation.
 
 ## Styling
 

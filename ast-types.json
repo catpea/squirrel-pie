@@ -1,0 +1,406 @@
+{
+  "Identifier": [
+    { "name": "type", "description": "Marks this node as an Identifier, which is a name for something (like a variable or function)." },
+    { "name": "name", "description": "The name itself as a string." }
+  ],
+  "Literal": [
+    { "name": "type", "description": "Marks this node as a Literal, representing a fixed value in the code." },
+    { "name": "value", "description": "The value (could be string, number, boolean, null, regex, or bigint)." },
+    { "name": "raw", "description": "The original text of the value as it appeared in code." },
+    { "name": "regex", "description": "For regex literals, an object with 'pattern' and 'flags' describing the regular expression." },
+    { "name": "bigint", "description": "For bigint literals, the string representation of the bigint value." }
+  ],
+  "Program": [
+    { "name": "type", "description": "Marks this node as a Program, representing an entire script or module." },
+    { "name": "sourceType", "description": "Shows if the code is a 'script' or a 'module'." },
+    { "name": "body", "description": "A list of all top-level statements and declarations." }
+  ],
+  "FunctionDeclaration": [
+    { "name": "type", "description": "Marks this node as a FunctionDeclaration, for defining functions." },
+    { "name": "id", "description": "The Identifier node representing the name of the function." },
+    { "name": "params", "description": "A list of parameters (as nodes) accepted by the function." },
+    { "name": "body", "description": "A BlockStatement node containing the function's code." },
+    { "name": "generator", "description": "True if the function is a generator (can pause and resume)." },
+    { "name": "expression", "description": "True if the function body is a single expression (usually false for declarations)." },
+    { "name": "async", "description": "True if the function is asynchronous (uses async/await)." }
+  ],
+  "ExpressionStatement": [
+    { "name": "type", "description": "Marks this node as an ExpressionStatement, meaning the statement is just an expression." },
+    { "name": "expression", "description": "The expression to be evaluated." },
+    { "name": "directive", "description": "For directives like 'use strict', this contains the directive string." }
+  ],
+  "BlockStatement": [
+    { "name": "type", "description": "Marks this node as a BlockStatement, which is a set of statements grouped by curly braces." },
+    { "name": "body", "description": "A list of statements inside the block." }
+  ],
+  "EmptyStatement": [
+    { "name": "type", "description": "Marks this node as an EmptyStatement, representing a lone semicolon (does nothing)." }
+  ],
+  "DebuggerStatement": [
+    { "name": "type", "description": "Marks this node as a DebuggerStatement, which triggers a debugger breakpoint." }
+  ],
+  "WithStatement": [
+    { "name": "type", "description": "Marks this node as a WithStatement, which extends the scope chain using an object." },
+    { "name": "object", "description": "The expression (object) whose properties are added to the scope." },
+    { "name": "body", "description": "The statement executed inside the with block." }
+  ],
+  "ReturnStatement": [
+    { "name": "type", "description": "Marks this node as a ReturnStatement, returning a value from a function." },
+    { "name": "argument", "description": "The expression whose value is returned, or null for just 'return;'." }
+  ],
+  "LabeledStatement": [
+    { "name": "type", "description": "Marks this node as a LabeledStatement, which attaches a label to a statement for break/continue." },
+    { "name": "label", "description": "An Identifier node naming the label." },
+    { "name": "body", "description": "The labeled statement." }
+  ],
+  "BreakStatement": [
+    { "name": "type", "description": "Marks this node as a BreakStatement, which exits loops or switch statements." },
+    { "name": "label", "description": "The label to break to, or null for a simple break." }
+  ],
+  "ContinueStatement": [
+    { "name": "type", "description": "Marks this node as a ContinueStatement, skipping the rest of a loop iteration." },
+    { "name": "label", "description": "The label to continue to, or null for a simple continue." }
+  ],
+  "IfStatement": [
+    { "name": "type", "description": "Marks this node as an IfStatement, for conditional branching." },
+    { "name": "test", "description": "The condition to check." },
+    { "name": "consequent", "description": "The statement to run if the condition is true." },
+    { "name": "alternate", "description": "The statement to run if the condition is false, or null if none." }
+  ],
+  "SwitchStatement": [
+    { "name": "type", "description": "Marks this node as a SwitchStatement, for switch-case logic." },
+    { "name": "discriminant", "description": "The expression to switch on." },
+    { "name": "cases", "description": "A list of SwitchCase nodes for each case and default." }
+  ],
+  "SwitchCase": [
+    { "name": "type", "description": "Marks this node as a SwitchCase, for a single case or default in a switch." },
+    { "name": "test", "description": "The expression to match (null for default)." },
+    { "name": "consequent", "description": "A list of statements to run for this case." }
+  ],
+  "ThrowStatement": [
+    { "name": "type", "description": "Marks this node as a ThrowStatement, which throws an exception." },
+    { "name": "argument", "description": "The expression to throw." }
+  ],
+  "TryStatement": [
+    { "name": "type", "description": "Marks this node as a TryStatement, for try-catch-finally error handling." },
+    { "name": "block", "description": "A BlockStatement node for the try block." },
+    { "name": "handler", "description": "A CatchClause node for the catch block, or null." },
+    { "name": "finalizer", "description": "A BlockStatement node for the finally block, or null." }
+  ],
+  "CatchClause": [
+    { "name": "type", "description": "Marks this node as a CatchClause, for catch error handling." },
+    { "name": "param", "description": "The pattern for the caught exception variable." },
+    { "name": "body", "description": "A BlockStatement node for the catch code." }
+  ],
+  "WhileStatement": [
+    { "name": "type", "description": "Marks this node as a WhileStatement, representing a while loop." },
+    { "name": "test", "description": "The condition checked before each loop iteration." },
+    { "name": "body", "description": "The statement to execute while the test is true." }
+  ],
+  "DoWhileStatement": [
+    { "name": "type", "description": "Marks this node as a DoWhileStatement, representing a do-while loop (runs at least once)." },
+    { "name": "body", "description": "The statement to execute in each iteration." },
+    { "name": "test", "description": "The condition checked after each loop iteration." }
+  ],
+  "ForStatement": [
+    { "name": "type", "description": "Marks this node as a ForStatement, representing a traditional for loop." },
+    { "name": "init", "description": "The initialization (usually variable declaration), or null if none." },
+    { "name": "test", "description": "The condition to check before each iteration, or null." },
+    { "name": "update", "description": "The expression to run after each iteration (usually increment), or null." },
+    { "name": "body", "description": "The statement to execute in each iteration." }
+  ],
+  "ForInStatement": [
+    { "name": "type", "description": "Marks this node as a ForInStatement, representing a for-in loop (iterates over object keys)." },
+    { "name": "left", "description": "The variable declaration or pattern to receive each key." },
+    { "name": "right", "description": "The expression for the object whose keys to iterate over." },
+    { "name": "body", "description": "The statement to execute for each key." }
+  ],
+  "ForOfStatement": [
+    { "name": "type", "description": "Marks this node as a ForOfStatement, representing a for-of loop (iterates over iterable values)." },
+    { "name": "left", "description": "The variable declaration or pattern to receive each value." },
+    { "name": "right", "description": "The expression for the iterable to loop over." },
+    { "name": "body", "description": "The statement to execute for each value." },
+    { "name": "await", "description": "True if this is a for-await-of loop (for async iterables)." }
+  ],
+  "VariableDeclaration": [
+    { "name": "type", "description": "Marks this node as a VariableDeclaration, for declaring variables." },
+    { "name": "declarations", "description": "A list of VariableDeclarator nodes." },
+    { "name": "kind", "description": "The keyword used: 'var', 'let', 'const', 'using', or 'await using' (ES2026 extension)." }
+  ],
+  "VariableDeclarator": [
+    { "name": "type", "description": "Marks this node as a VariableDeclarator, describing a single variable." },
+    { "name": "id", "description": "The Identifier or Pattern node for the variable's name." },
+    { "name": "init", "description": "The initial value assigned to the variable, or null if none." }
+  ],
+  "ThisExpression": [
+    { "name": "type", "description": "Marks this node as a ThisExpression, which refers to the current object context (this)." }
+  ],
+  "ArrayExpression": [
+    { "name": "type", "description": "Marks this node as an ArrayExpression, representing an array literal." },
+    { "name": "elements", "description": "A list of expressions or null (if there is a hole in the array, e.g. [1,,2])." }
+  ],
+  "ObjectExpression": [
+    { "name": "type", "description": "Marks this node as an ObjectExpression, representing an object literal." },
+    { "name": "properties", "description": "A list of Property nodes, each describing a key-value pair." }
+  ],
+  "Property": [
+    { "name": "type", "description": "Marks this node as a Property, describing a key-value pair in an object." },
+    { "name": "key", "description": "The key for the property, as a Literal or Identifier node." },
+    { "name": "value", "description": "The value for the property, as an Expression node." },
+    { "name": "kind", "description": "The kind of property: 'init' for normal property, 'get' for getter, 'set' for setter." },
+    { "name": "method", "description": "True if the property is defined using method shorthand (e.g., { foo() {} })." },
+    { "name": "shorthand", "description": "True if the property uses shorthand syntax (e.g., { x } instead of { x: x })." },
+    { "name": "computed", "description": "True if the property name is computed (e.g., { [expr]: value })." }
+  ],
+  "FunctionExpression": [
+    { "name": "type", "description": "Marks this node as a FunctionExpression, which defines an unnamed or anonymous function." },
+    { "name": "id", "description": "An Identifier node for the function's name, or null for anonymous functions." },
+    { "name": "params", "description": "A list of parameters (nodes) accepted by the function." },
+    { "name": "body", "description": "A BlockStatement node containing the function's code." },
+    { "name": "generator", "description": "True if the function is a generator." },
+    { "name": "expression", "description": "True if the body is a single expression (always false for function expressions)." },
+    { "name": "async", "description": "True if the function is asynchronous." }
+  ],
+  "UnaryExpression": [
+    { "name": "type", "description": "Marks this node as a UnaryExpression, representing an operation with one operand (like -a, !b)." },
+    { "name": "operator", "description": "The operator as a string (e.g. '-', '!', 'typeof', 'void', 'delete')." },
+    { "name": "argument", "description": "The expression the operator applies to." },
+    { "name": "prefix", "description": "True if the operator comes before the argument." }
+  ],
+  "UpdateExpression": [
+    { "name": "type", "description": "Marks this node as an UpdateExpression, representing ++ or -- on a value." },
+    { "name": "operator", "description": "Either '++' or '--'." },
+    { "name": "argument", "description": "The expression to be updated (usually a variable)." },
+    { "name": "prefix", "description": "True if the operator comes before the argument (e.g. ++x)." }
+  ],
+  "BinaryExpression": [
+    { "name": "type", "description": "Marks this node as a BinaryExpression, for two-sided operations like a + b." },
+    { "name": "operator", "description": "The operator as a string (e.g. '+', '-', '*', '/', '==', '===', '**')." },
+    { "name": "left", "description": "The left-hand side expression." },
+    { "name": "right", "description": "The right-hand side expression." }
+  ],
+  "AssignmentExpression": [
+    { "name": "type", "description": "Marks this node as an AssignmentExpression, representing assignments like x = 5." },
+    { "name": "operator", "description": "The assignment operator (e.g. '=', '+=', '-=', '||=', '&&=', '??=')." },
+    { "name": "left", "description": "The target being assigned to (could be variable, property, etc.)." },
+    { "name": "right", "description": "The value being assigned." }
+  ],
+  "LogicalExpression": [
+    { "name": "type", "description": "Marks this node as a LogicalExpression, representing logical operations like a && b." },
+    { "name": "operator", "description": "The logical operator: '||', '&&', or '??'." },
+    { "name": "left", "description": "The left-hand side expression." },
+    { "name": "right", "description": "The right-hand side expression." }
+  ],
+  "MemberExpression": [
+    { "name": "type", "description": "Marks this node as a MemberExpression, representing property access like a.b or a[b]." },
+    { "name": "object", "description": "The object being accessed." },
+    { "name": "property", "description": "The property being accessed (could be Identifier, Expression, or PrivateIdentifier)." },
+    { "name": "computed", "description": "True if using bracket notation (a[b]); false for dot notation (a.b)." },
+    { "name": "optional", "description": "True if using optional chaining (a?.b)." }
+  ],
+  "ConditionalExpression": [
+    { "name": "type", "description": "Marks this node as a ConditionalExpression, representing a ternary expression (a ? b : c)." },
+    { "name": "test", "description": "The condition to test." },
+    { "name": "consequent", "description": "The result if the condition is true." },
+    { "name": "alternate", "description": "The result if the condition is false." }
+  ],
+  "CallExpression": [
+    { "name": "type", "description": "Marks this node as a CallExpression, representing a function or method call." },
+    { "name": "callee", "description": "The function or expression being called." },
+    { "name": "arguments", "description": "A list of arguments being passed to the function." },
+    { "name": "optional", "description": "True if the call is optional (used in optional chaining, e.g. obj?.method())." }
+  ],
+  "NewExpression": [
+    { "name": "type", "description": "Marks this node as a NewExpression, representing creating a new object (new Something())." },
+    { "name": "callee", "description": "The constructor function being called." },
+    { "name": "arguments", "description": "A list of arguments for the constructor." }
+  ],
+  "SequenceExpression": [
+    { "name": "type", "description": "Marks this node as a SequenceExpression, representing multiple expressions separated by commas (a, b, c)." },
+    { "name": "expressions", "description": "A list of expressions to be evaluated in order." }
+  ],
+  "Super": [
+    { "name": "type", "description": "Marks this node as Super, representing the 'super' keyword used to access parent class methods or constructor." }
+  ],
+  "SpreadElement": [
+    { "name": "type", "description": "Marks this node as a SpreadElement, representing the spread operator (...) in arrays or function calls." },
+    { "name": "argument", "description": "The expression being spread." }
+  ],
+  "ArrowFunctionExpression": [
+    { "name": "type", "description": "Marks this node as an ArrowFunctionExpression, representing an arrow function (x => x * 2)." },
+    { "name": "id", "description": "Normally null, since arrow functions are anonymous." },
+    { "name": "params", "description": "A list of parameters accepted by the function." },
+    { "name": "body", "description": "The code for the function (could be an expression or a block statement)." },
+    { "name": "expression", "description": "True if the body is a single expression (no braces)." },
+    { "name": "generator", "description": "False for arrow functions (they can't be generators)." },
+    { "name": "async", "description": "True if the arrow function is asynchronous." }
+  ],
+  "YieldExpression": [
+    { "name": "type", "description": "Marks this node as a YieldExpression, representing the yield keyword in generators." },
+    { "name": "argument", "description": "The value to yield, or null if nothing is yielded." },
+    { "name": "delegate", "description": "True if using yield* to delegate to another iterator." }
+  ],
+  "TemplateLiteral": [
+    { "name": "type", "description": "Marks this node as a TemplateLiteral, representing template strings (backtick strings with ${} expressions)." },
+    { "name": "quasis", "description": "A list of TemplateElement nodes representing the static string parts." },
+    { "name": "expressions", "description": "A list of expressions embedded in the template (the ${} parts)." }
+  ],
+  "TaggedTemplateExpression": [
+    { "name": "type", "description": "Marks this node as a TaggedTemplateExpression, representing a tagged template (e.g., tag`string`)." },
+    { "name": "tag", "description": "The function to process the template." },
+    { "name": "quasi", "description": "A TemplateLiteral node for the template string." }
+  ],
+  "TemplateElement": [
+    { "name": "type", "description": "Marks this node as a TemplateElement, representing one static part of a template literal." },
+    { "name": "tail", "description": "True if this is the last element in the template." },
+    { "name": "value", "description": "An object with 'cooked' (processed) and 'raw' (original) string values." }
+  ],
+  "AssignmentProperty": [
+    { "name": "type", "description": "Marks this node as a Property (used in object destructuring patterns)." },
+    { "name": "key", "description": "The property name in the source object." },
+    { "name": "value", "description": "The pattern where the value will be assigned." },
+    { "name": "kind", "description": "Always 'init' for assignment properties." },
+    { "name": "method", "description": "Always false for assignment properties." },
+    { "name": "shorthand", "description": "True if using shorthand syntax (e.g., {x} instead of {x: x})." },
+    { "name": "computed", "description": "True if the property name is computed." }
+  ],
+  "ObjectPattern": [
+    { "name": "type", "description": "Marks this node as an ObjectPattern, used for destructuring objects in variable declarations and function parameters." },
+    { "name": "properties", "description": "A list of Property or RestElement nodes, each describing part of the pattern." }
+  ],
+  "ArrayPattern": [
+    { "name": "type", "description": "Marks this node as an ArrayPattern, used for destructuring arrays in variable declarations and function parameters." },
+    { "name": "elements", "description": "A list of pattern nodes or nulls (for missing elements)." }
+  ],
+  "RestElement": [
+    { "name": "type", "description": "Marks this node as a RestElement, representing ...rest syntax in patterns." },
+    { "name": "argument", "description": "The pattern node that receives the rest of the values." }
+  ],
+  "AssignmentPattern": [
+    { "name": "type", "description": "Marks this node as an AssignmentPattern, representing default values in destructuring (e.g. x = 5)." },
+    { "name": "left", "description": "The left side of the assignment (a pattern)." },
+    { "name": "right", "description": "The default value expression." }
+  ],
+  "ClassDeclaration": [
+    { "name": "type", "description": "Marks this node as a ClassDeclaration, defining a class with a name." },
+    { "name": "id", "description": "An Identifier node for the class name." },
+    { "name": "superClass", "description": "The Expression node for the superclass, or null if none." },
+    { "name": "body", "description": "A ClassBody node containing methods and properties." }
+  ],
+  "ClassExpression": [
+    { "name": "type", "description": "Marks this node as a ClassExpression, defining a class expression (can be anonymous or assigned to a variable)." },
+    { "name": "id", "description": "An Identifier node for the class name, or null if anonymous." },
+    { "name": "superClass", "description": "The Expression node for the superclass, or null if none." },
+    { "name": "body", "description": "A ClassBody node containing methods and properties." }
+  ],
+  "ClassBody": [
+    { "name": "type", "description": "Marks this node as a ClassBody, which holds the contents of a class." },
+    { "name": "body", "description": "A list of MethodDefinition, PropertyDefinition, or StaticBlock nodes." }
+  ],
+  "MethodDefinition": [
+    { "name": "type", "description": "Marks this node as a MethodDefinition, describing a method in a class." },
+    { "name": "key", "description": "The property key (name or computed) for the method." },
+    { "name": "value", "description": "A FunctionExpression node for the method's code." },
+    { "name": "kind", "description": "The kind of method: 'constructor', 'method', 'get', or 'set'." },
+    { "name": "computed", "description": "True if the method name is computed (e.g. [expr])." },
+    { "name": "static", "description": "True if the method is static." }
+  ],
+  "PropertyDefinition": [
+    { "name": "type", "description": "Marks this node as a PropertyDefinition, describing a property in a class." },
+    { "name": "key", "description": "The property key (Expression or PrivateIdentifier)." },
+    { "name": "value", "description": "The initial value for the property, or null." },
+    { "name": "computed", "description": "True if the property name is computed." },
+    { "name": "static", "description": "True if the property is static." }
+  ],
+  "StaticBlock": [
+    { "name": "type", "description": "Marks this node as a StaticBlock, representing a static initialization block inside a class." },
+    { "name": "body", "description": "A list of statements in the static block." }
+  ],
+  "PrivateIdentifier": [
+    { "name": "type", "description": "Marks this node as a PrivateIdentifier, for private class fields and methods (e.g. #name)." },
+    { "name": "name", "description": "The name of the private identifier (without the #)." }
+  ],
+  "MetaProperty": [
+    { "name": "type", "description": "Marks this node as a MetaProperty, representing meta properties like 'new.target' or 'import.meta'." },
+    { "name": "meta", "description": "An Identifier for the meta part (e.g., 'new' or 'import')." },
+    { "name": "property", "description": "An Identifier for the property part (e.g., 'target' or 'meta')." }
+  ],
+  "ImportDeclaration": [
+    { "name": "type", "description": "Marks this node as an ImportDeclaration, for importing from a module." },
+    { "name": "specifiers", "description": "A list of ImportSpecifier, ImportDefaultSpecifier, or ImportNamespaceSpecifier nodes." },
+    { "name": "source", "description": "A Literal node for the module path." },
+    { "name": "attributes", "description": "A list of ImportAttribute nodes, describing any import attributes (e.g., type: 'json')." }
+  ],
+  "ImportSpecifier": [
+    { "name": "type", "description": "Marks this node as an ImportSpecifier, which imports a named export from a module." },
+    { "name": "imported", "description": "The Identifier or Literal node for the imported name." },
+    { "name": "local", "description": "The Identifier node for the local name in code." }
+  ],
+  "ImportDefaultSpecifier": [
+    { "name": "type", "description": "Marks this node as an ImportDefaultSpecifier, which imports the default export from a module." },
+    { "name": "local", "description": "The Identifier node for the local name in code." }
+  ],
+  "ImportNamespaceSpecifier": [
+    { "name": "type", "description": "Marks this node as an ImportNamespaceSpecifier, which imports an entire module as a namespace (import * as name)." },
+    { "name": "local", "description": "The Identifier node for the local namespace name." }
+  ],
+  "ImportAttribute": [
+    { "name": "type", "description": "Marks this node as an ImportAttribute, used for specifying import attributes." },
+    { "name": "key", "description": "The key for the attribute, as Identifier or Literal." },
+    { "name": "value", "description": "The value for the attribute, always a string Literal." }
+  ],
+  "ExportNamedDeclaration": [
+    { "name": "type", "description": "Marks this node as an ExportNamedDeclaration, for exporting specific names from a module." },
+    { "name": "declaration", "description": "The declaration being exported, or null." },
+    { "name": "specifiers", "description": "A list of ExportSpecifier nodes." },
+    { "name": "source", "description": "A Literal node with the source module (only for re-exports)." },
+    { "name": "attributes", "description": "A list of ImportAttribute nodes. Must be empty if source is null." }
+  ],
+  "ExportSpecifier": [
+    { "name": "type", "description": "Marks this node as an ExportSpecifier, describing an individual export." },
+    { "name": "exported", "description": "The Identifier or Literal node for the exported name." },
+    { "name": "local", "description": "The Identifier or Literal node for the local name in code." }
+  ],
+  "AnonymousFunctionDeclaration": [
+    { "name": "type", "description": "Marks this node as a FunctionDeclaration without a name (used in export default)." },
+    { "name": "id", "description": "Always null for anonymous function declarations." },
+    { "name": "params", "description": "A list of parameters accepted by the function." },
+    { "name": "body", "description": "A BlockStatement node containing the function's code." },
+    { "name": "generator", "description": "True if the function is a generator." },
+    { "name": "expression", "description": "True if the body is a single expression." },
+    { "name": "async", "description": "True if the function is asynchronous." }
+  ],
+  "AnonymousClassDeclaration": [
+    { "name": "type", "description": "Marks this node as a ClassDeclaration without a name (used in export default)." },
+    { "name": "id", "description": "Always null for anonymous class declarations." },
+    { "name": "superClass", "description": "The Expression node for the superclass, or null if none." },
+    { "name": "body", "description": "A ClassBody node containing methods and properties." }
+  ],
+  "ExportDefaultDeclaration": [
+    { "name": "type", "description": "Marks this node as an ExportDefaultDeclaration, exporting the default value from a module." },
+    { "name": "declaration", "description": "The declaration or expression being exported as default." }
+  ],
+  "ExportAllDeclaration": [
+    { "name": "type", "description": "Marks this node as an ExportAllDeclaration, for exporting everything from another module." },
+    { "name": "source", "description": "A Literal node with the source module." },
+    { "name": "exported", "description": "An Identifier or Literal for the namespace name when re-exporting as a namespace, or null." },
+    { "name": "attributes", "description": "A list of ImportAttribute nodes." }
+  ],
+  "AwaitExpression": [
+    { "name": "type", "description": "Marks this node as an AwaitExpression, representing the await keyword in async functions." },
+    { "name": "argument", "description": "The expression being awaited (usually a Promise)." }
+  ],
+  "ChainExpression": [
+    { "name": "type", "description": "Marks this node as a ChainExpression, wrapping optional chaining expressions." },
+    { "name": "expression", "description": "The MemberExpression or CallExpression that uses optional chaining." }
+  ],
+  "ImportExpression": [
+    { "name": "type", "description": "Marks this node as an ImportExpression, for dynamic imports (import(expr))." },
+    { "name": "source", "description": "The Expression for the module path." },
+    { "name": "options", "description": "An Expression node for import options (e.g., { with: { type: 'json' } }), or null if none." }
+  ],
+  "ParenthesizedExpression": [
+    { "name": "type", "description": "Marks this node as a ParenthesizedExpression, representing an expression wrapped in parentheses." },
+    { "name": "expression", "description": "The expression inside the parentheses." }
+  ]
+}

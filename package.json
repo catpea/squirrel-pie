@@ -2,7 +2,7 @@
   "type": "module",
   "name": "squirrel-pie",
   "version": "1.0.4",
-  "description": "AST-based JavaScript syntax highlighter Web Component using Acorn - Friends with squirrels, not food",
+  "description": "Interactive AST-based JavaScript syntax highlighter Web Component - Click any code to explore its AST path. Learn by doing, not by reading docs. Friends with squirrels, not food 🐿️",
   "main": "index.js",
   "module": "index.js",
   "exports": {
@@ -43,7 +43,15 @@
     "theme",
     "educational",
     "learning",
-    "ast-visualization"
+    "ast-visualization",
+    "ast-explorer",
+    "ast-path",
+    "interactive",
+    "code-transformation",
+    "babel",
+    "eslint",
+    "code-analysis",
+    "ast-traversal"
   ],
   "author": "catpea (https://github.com/catpea)",
   "license": "MIT AND SPL-1.0",

@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Squirrel Pie - Complete AST Node Test</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+      }
+      h1 {
+        color: #4ec9b0;
+        border-bottom: 3px solid #4ec9b0;
+        padding-bottom: 15px;
+      }
+      h2 {
+        color: #dcdcaa;
+        margin-top: 50px;
+        margin-bottom: 20px;
+      }
+      .test-section {
+        margin-bottom: 40px;
+      }
+      .test-info {
+        background: #252526;
+        padding: 15px;
+        border-left: 4px solid #569cd6;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+      .test-info p {
+        margin: 5px 0;
+        color: #9cdcfe;
+      }
+      .test-info strong {
+        color: #4ec9b0;
+      }
+      .success {
+        color: #4ec9b0;
+      }
+      .instruction {
+        background: #2d2d30;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #ce9178;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Complete AST Node Type Test Suite</h1>
+    <p style="color: #9cdcfe; font-size: 18px;">
+      Click any code element below to verify AST path tracking is working correctly.
+      Every node type should display its path, array path, and properties.
+    </p>
+
+    <div class="test-section">
+      <h2>✅ Control Flow Statements (All Loops & Conditionals)</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> SwitchStatement, SwitchCase, ThrowStatement, TryStatement, CatchClause, WhileStatement, DoWhileStatement, ForStatement, ForInStatement, ForOfStatement, WithStatement</p>
+        <p class="instruction">👉 Click: switch keyword, case values, throw, try/catch/finally, loop conditions, loop bodies</p>
+      </div>
+      <squirrel-pie>
+        // Switch Statement
+        switch (day) {
+          case 'Monday':
+            console.log('Start of week');
+            break;
+          case 'Friday':
+            console.log('TGIF!');
+            break;
+          default:
+            console.log('Mid week');
+        }
+
+        // Try-Catch-Finally
+        try {
+          riskyOperation();
+        } catch (error) {
+          console.error('Error:', error.message);
+          throw new Error('Failed');
+        } finally {
+          cleanup();
+        }
+
+        // While Loop
+        while (count < 10) {
+          count++;
+        }
+
+        // Do-While Loop
+        do {
+          process();
+        } while (hasMore);
+
+        // For Loop
+        for (let i = 0; i < items.length; i++) {
+          console.log(items[i]);
+        }
+
+        // For-In Loop
+        for (const key in object) {
+          console.log(key, object[key]);
+        }
+
+        // For-Of Loop
+        for (const item of array) {
+          console.log(item);
+        }
+
+        // For-Await-Of Loop
+        for await (const data of asyncIterator) {
+          await process(data);
+        }
+
+        // With Statement (deprecated but valid)
+        // with (Math) { const result = cos(PI / 2); }
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Expressions & Collections</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> ChainExpression, SequenceExpression, ArrayExpression, ObjectExpression, Property, SpreadElement, RestElement</p>
+        <p class="instruction">👉 Click: optional chains, comma operators, array/object literals, spread operators, rest parameters</p>
+      </div>
+      <squirrel-pie>
+        // Optional Chaining (ChainExpression)
+        const value = obj?.prop?.nested?.deep;
+        const result = func?.();
+        const item = array?.[0];
+
+        // Sequence Expression (comma operator)
+        let a, b, c;
+        const val = (a = 1, b = 2, c = 3, a + b + c);
+
+        // Array Expression with Spread
+        const arr1 = [1, 2, 3];
+        const arr2 = [0, ...arr1, 4, 5];
+        const sparse = [1, , , 4];
+
+        // Object Expression with Spread
+        const obj1 = {x: 1, y: 2};
+        const obj2 = {
+          ...obj1,
+          z: 3,
+          method() {
+            return this.x + this.y;
+          },
+          get value() {
+            return this.x;
+          },
+          set value(v) {
+            this.x = v;
+          }
+        };
+
+        // Rest Parameters
+        function sum(...numbers) {
+          return numbers.reduce((a, b) => a + b, 0);
+        }
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Destructuring Patterns</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> ArrayPattern, ObjectPattern with nested structures and defaults</p>
+        <p class="instruction">👉 Click: array destructuring, object destructuring, nested patterns, default values, rest elements</p>
+      </div>
+      <squirrel-pie>
+        // Array Destructuring
+        const [first, second, ...rest] = [1, 2, 3, 4, 5];
+        const [a, , c] = [1, 2, 3];
+        const [x = 10, y = 20] = [1];
+
+        // Object Destructuring
+        const {name, age, city = 'Unknown'} = user;
+        const {x: posX, y: posY} = coordinates;
+        const {nested: {deep: {value}}} = data;
+
+        // Function Parameter Destructuring
+        function greet({name, greeting = 'Hello'}) {
+          return `${greeting}, ${name}!`;
+        }
+
+        function process([first, ...rest]) {
+          return {first, rest};
+        }
+
+        // Complex Nested Patterns
+        const {
+          user: {
+            profile: {name1, avatar},
+            settings: {theme = 'dark', ...otherSettings}
+          },
+          posts: [firstPost, ...otherPosts]
+        } = data;
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Template Literals & Tagged Templates</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> TemplateLiteral, TaggedTemplateExpression, TemplateElement</p>
+        <p class="instruction">👉 Click: template strings, interpolated expressions, template tags, template parts</p>
+      </div>
+      <squirrel-pie>
+        // Template Literals
+        const name = 'World';
+        const greeting = `Hello, ${name}!`;
+
+        const multiline = `
+          Line 1
+          Line 2
+          Line 3
+        `;
+
+        const nested = `Outer ${`inner ${value}`}`;
+
+        // Tagged Template Expression
+        function tag(strings, ...values) {
+          return strings.raw[0] + values.join('');
+        }
+
+        const styled = tag`color: ${color}; font-size: ${size}px`;
+
+        // Complex Expressions in Templates
+        const result = `Sum: ${a + b}, Product: ${a * b}`;
+        const conditional = `Status: ${isActive ? 'Active' : 'Inactive'}`;
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Async, Generators & Yield/Await</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> YieldExpression, AwaitExpression in various contexts</p>
+        <p class="instruction">👉 Click: yield, yield*, await, async keywords in different positions</p>
+      </div>
+      <squirrel-pie>
+        // Generator Function with Yield
+        function* fibonacci() {
+          let a = 0, b = 1;
+          while (true) {
+            yield a;
+            [a, b] = [b, a + b];
+          }
+        }
+
+        // Yield with Delegation
+        function* delegateGenerator() {
+          yield* fibonacci();
+          yield* otherGenerator();
+        }
+
+        // Async Generator
+        async function* asyncGenerator() {
+          for (let i = 0; i < 10; i++) {
+            await delay(100);
+            yield i;
+          }
+        }
+
+        // Await Expressions
+        async function fetchData() {
+          const response = await fetch(url);
+          const data = await response.json();
+          const processed = await process(data);
+          return processed;
+        }
+
+        // Await in Various Positions
+        const result = await promise;
+        const arr = [await p1, await p2];
+        const obj = {data: await fetchData()};
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Meta Properties</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> MetaProperty (import.meta, new.target)</p>
+        <p class="instruction">👉 Click: import.meta, new.target, their properties</p>
+      </div>
+      <squirrel-pie>
+        // import.meta
+        const moduleUrl = import.meta.url;
+        const modulePath = import.meta.resolve('./module.js');
+
+        // new.target in constructor
+        class MyClass {
+          constructor() {
+            if (new.target === MyClass) {
+              console.log('Direct instantiation');
+            } else {
+              console.log('Subclass instantiation');
+            }
+          }
+        }
+
+        function Constructor() {
+          if (!new.target) {
+            throw new Error('Must use new');
+          }
+        }
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Module Imports & Exports</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> ImportExpression, ImportDeclaration, ImportSpecifier, ImportDefaultSpecifier, ImportNamespaceSpecifier, ImportAttribute, ExportNamedDeclaration, ExportSpecifier, ExportDefaultDeclaration, ExportAllDeclaration</p>
+        <p class="instruction">👉 Click: import, export keywords, module specifiers, import assertions, named/default exports</p>
+      </div>
+      <squirrel-pie>
+        // Dynamic Import
+        const module = await import('./module.js');
+        <!--const withOptions = await import('./data.json', { with: {type: 'json'} });-->
+
+        // Import Statements
+        import defaultExport from './module.js';
+        import {named1, named2} from './utils.js';
+        import {original as renamed} from './lib.js';
+        import * as namespace from './all.js';
+        import React, {useState, useEffect} from 'react';
+
+        // Import with Attributes
+        <!--import data from './data.json' with {type: 'json'};-->
+        <!--import styles from './styles.css' with {type: 'css'};-->
+
+        // Export Named
+        export const PI = 3.14159;
+        export function calculate(x) {
+          return x * 2;
+        }
+        /// export {func1, func2};
+        // export {original as renamed};
+
+        // Export Default
+        //export default class MyClass {}
+       // export default function() {}
+       //export default 42;
+
+        // Re-exports
+        export {item1, item2} from './other.js';
+        export * from './all.js';
+        export * as utilities from './utils.js';
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Edge Cases & Special Syntax</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> ParenthesizedExpression, complex nested structures</p>
+        <p class="instruction">👉 Click: parenthesized expressions, deeply nested structures</p>
+      </div>
+      <squirrel-pie>
+        // Parenthesized Expressions
+        const result = (a + b) * (c - d);
+        const obj = ({x: 1, y: 2});
+        const arrow = (x) => (y) => x + y;
+
+        // Complex Nested Expression
+        const complex = (
+          (a && b) ||
+          (c ?? d) ||
+          (e?.f?.g)
+        );
+
+        // IIFE with Parentheses
+        (function() {
+          console.log('IIFE');
+        })();
+
+        ((x) => {
+          console.log(x);
+        })(42);
+      </squirrel-pie>
+    </div>
+
+    <div class="test-section">
+      <h2>🎯 Complete Integration Test</h2>
+      <div class="test-info">
+        <p><strong>Test:</strong> All node types combined in realistic code</p>
+        <p class="instruction">👉 Click any part of this complex example to verify complete AST path tracking</p>
+      </div>
+      <squirrel-pie>
+        // Complete test of all features
+        class DataService extends BaseService {
+          static #instances = new Map();
+          #cache = new WeakMap();
+
+          static {
+            console.log('DataService initialized');
+          }
+
+          static getInstance(key) {
+            if (!this.#instances.has(key)) {
+              this.#instances.set(key, new this(key));
+            }
+            return this.#instances.get(key);
+          }
+
+          constructor(endpoint) {
+            super();
+            this.endpoint = endpoint;
+          }
+
+          async *fetchPages() {
+            let page = 1;
+            while (true) {
+              try {
+                const response = await fetch(`${this.endpoint}?page=${page}`);
+
+                switch (response.status) {
+                  case 200:
+                    const data = await response.json();
+                    yield* data.items;
+                    break;
+                  case 404:
+                    throw new Error('Not found');
+                  default:
+                    console.warn('Unexpected status:', response.status);
+                }
+
+                page++;
+              } catch (error) {
+                console.error('Fetch error:', error);
+                break;
+              } finally {
+                await this.cleanup();
+              }
+            }
+          }
+
+          async process({items, options = {}}) {
+            const results = [];
+
+            for await (const item of this.fetchPages()) {
+              const processed = await this.transform(item);
+
+              if (processed?.valid && processed?.data) {
+                results.push(processed);
+              }
+
+              if (results.length >= (options.limit ?? 100)) {
+                break;
+              }
+            }
+
+            return {
+              results,
+              count: results.length,
+              metadata: {
+                timestamp: Date.now(),
+                endpoint: this.endpoint
+              }
+            };
+          }
+        }
+
+        export default DataService;
+        export {DataService};
+        export * from './types.js';
+      </squirrel-pie>
+    </div>
+
+    <div style="background: #4ec9b01a; padding: 30px; margin-top: 60px; border-radius: 8px; border: 2px solid #4ec9b0;">
+      <h2 style="margin-top: 0; color: #4ec9b0;">✅ Testing Checklist</h2>
+      <p style="font-size: 16px; color: #d4d4d4;">For each code section above, verify:</p>
+      <ul style="color: #9cdcfe; font-size: 16px; line-height: 2;">
+        <li>✅ <strong>Popup appears</strong> when clicking any code element</li>
+        <li>✅ <strong>Node Type</strong> is correct and matches the element</li>
+        <li>✅ <strong>AST Path</strong> shows full hierarchy from Program</li>
+        <li>✅ <strong>Array Path</strong> is syntactically valid JavaScript</li>
+        <li>✅ <strong>Node Properties</strong> show relevant info (operator, async, etc.)</li>
+        <li>✅ <strong>Copy buttons</strong> work and show ✅ feedback</li>
+        <li>✅ <strong>Popup closes</strong> on close button or outside click</li>
+      </ul>
+      <p style="font-size: 18px; color: #4ec9b0; font-weight: 600; margin-top: 30px;">
+        🎉 If all checks pass, ALL 65+ AST node types are working perfectly!
+      </p>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

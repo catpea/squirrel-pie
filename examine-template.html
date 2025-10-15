@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Squirrel Pie - Complete AST Node Test</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div style="display: flex; gap: 1rem;">
+      <div style="flex: 50%;">
+        <squirrel-pie id="squirrelPie">
+          if(1){
+            console.log({got: 1})
+          }
+        </squirrel-pie>
+      </div>
+      <div style="flex: 50%;">
+        TODO!
+      </div>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+    <script type="module">
+      squirrelPie.addEventListener("squirrel", function(event){
+        console.log(event.detail)
+      })
+
+    </script>
+
+  </body>
+</html>

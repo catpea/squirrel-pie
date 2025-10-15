@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Squirrel Pie - Click to Explore AST Paths</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+      }
+      h1 {
+        color: #4ec9b0;
+        border-bottom: 2px solid #4ec9b0;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #dcdcaa;
+        margin-top: 40px;
+      }
+      .info-box {
+        background: #252526;
+        border-left: 4px solid #4ec9b0;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      .info-box h3 {
+        color: #4ec9b0;
+        margin-top: 0;
+      }
+      .info-box ul {
+        color: #9cdcfe;
+        line-height: 1.8;
+      }
+      .example {
+        margin: 30px 0;
+      }
+      .example h3 {
+        color: #9cdcfe;
+        margin-bottom: 10px;
+      }
+      .highlight {
+        background: #4ec9b01a;
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: #4ec9b0;
+        font-family: monospace;
+      }
+      code {
+        background: #2d2d30;
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: #ce9178;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🌳 Click to Explore AST Paths</h1>
+
+    <div class="info-box">
+      <h3>🎓 Learn AST by Clicking!</h3>
+      <p><strong>Click any part of the code below</strong> to see:</p>
+      <ul>
+        <li><strong>Node Type</strong> - What kind of AST node it is (e.g., CallExpression, MemberExpression)</li>
+        <li><strong>AST Path</strong> - The hierarchical path from Program to this node</li>
+        <li><strong>Array Path</strong> - How to access this node programmatically (for writing transforms)</li>
+        <li><strong>Node Properties</strong> - Key properties like operator, async, static, etc.</li>
+      </ul>
+      <p>Each piece of information can be <span class="highlight">copied with one click 📋</span> - perfect for learning and building AST tools!</p>
+    </div>
+
+    <div class="example">
+      <h2>Example 1: Simple Function</h2>
+      <p>Click on different parts: the function keyword, the parameter name, the return statement, the expression...</p>
+      <squirrel-pie>
+        const x = "alice";
+      </squirrel-pie>
+    </div>
+
+    <div class="example">
+      <h2>Example 2: ES6 Class with Methods</h2>
+      <p>Try clicking: class keyword, method names, <code>this</code> keyword, getters, the constructor...</p>
+      <squirrel-pie>
+        class Rectangle {
+          constructor(height, width) {
+            this.height = height;
+            this.width = width;
+          }
+
+          get area() {
+            return this.height * this.width;
+          }
+
+          get perimeter() {
+            return 2 * (this.height + this.width);
+          }
+        }
+      </squirrel-pie>
+    </div>
+
+    <div class="example">
+      <h2>Example 3: Complex Expressions</h2>
+      <p>Click member access (<code>users.map</code>), arrow functions, destructuring, method calls...</p>
+      <squirrel-pie>
+        const users = [
+          { name: 'Alice', age: 30 },
+          { name: 'Bob', age: 25 }
+        ];
+
+        const names = users
+          .filter(({ age }) => age >= 18)
+          .map(user => user.name)
+          .join(', ');
+      </squirrel-pie>
+    </div>
+
+    <div class="example">
+      <h2>Example 4: Async/Await</h2>
+      <p>Explore async functions, await expressions, try/catch, member expressions...</p>
+      <squirrel-pie>
+        async function fetchUserData(userId) {
+          try {
+            const response = await fetch(`/api/users/${userId}`);
+            if (!response.ok) {
+              throw new Error('User not found');
+            }
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            console.error('Failed:', error.message);
+            return null;
+          }
+        }
+      </squirrel-pie>
+    </div>
+
+    <div class="example">
+      <h2>Example 5: Binary & Logical Operators</h2>
+      <p>Click operators to see BinaryExpression vs LogicalExpression, explore operator precedence...</p>
+      <squirrel-pie>
+        const isValid = (x > 0 && x < 100) || x === 0;
+        const total = (price * quantity) + shipping - discount;
+        const result = value ?? defaultValue;
+      </squirrel-pie>
+    </div>
+
+    <div class="info-box">
+      <h3>💡 What You're Learning</h3>
+      <p>By clicking around and exploring these AST paths, you're learning:</p>
+      <ul>
+        <li><strong>AST Structure</strong> - How JavaScript code is represented as a tree</li>
+        <li><strong>Node Relationships</strong> - Parent-child relationships in the syntax tree</li>
+        <li><strong>Traversal Paths</strong> - How to navigate the AST programmatically</li>
+        <li><strong>Node Properties</strong> - What information each node type contains</li>
+      </ul>
+      <p>This is the foundation for building:</p>
+      <ul>
+        <li>🔍 <strong>Code linters</strong> - Find problematic patterns</li>
+        <li>✨ <strong>Code formatters</strong> - Pretty-print with style</li>
+        <li>🔄 <strong>Code transformers</strong> - Automatically refactor code</li>
+        <li>📊 <strong>Static analyzers</strong> - Understand code complexity</li>
+        <li>🛠️ <strong>Build tools</strong> - Process code during build</li>
+      </ul>
+    </div>
+
+    <div class="example">
+      <h2>🎯 Try Building Your Own Tools!</h2>
+      <p>Once you understand AST paths, try these challenges:</p>
+      <ol style="color: #9cdcfe; line-height: 1.8;">
+        <li>Write a tool that finds all <code>console.log</code> calls (look for CallExpression where callee is console.log)</li>
+        <li>Count how many functions are in your code (FunctionDeclaration + FunctionExpression + ArrowFunctionExpression)</li>
+        <li>Find all async functions that don't use await</li>
+        <li>List all class methods and their visibility (public vs private #methods)</li>
+      </ol>
+      <p>The AST paths shown here are exactly what you'd use in tools like Babel, ESLint, or your own transformers!</p>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
