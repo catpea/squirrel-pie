@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "squirrel-pie",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Interactive AST-based JavaScript syntax highlighter Web Component - Click any code to explore its AST path. Learn by doing, not by reading docs. Friends with squirrels, not food 🐿️",
   "main": "index.js",
   "module": "index.js",
