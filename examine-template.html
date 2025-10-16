@@ -14,6 +14,8 @@
         color: #d4d4d4;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/hoity-toity/hoity-toity.min.js"></script>
+    <script src="./bread-crumb.js"></script>
   </head>
   <body>
 
@@ -21,20 +23,57 @@
       <div style="flex: 50%;">
         <squirrel-pie id="squirrelPie">
           if(1){
-            console.log({got: 1})
+            console.log({got: 1});
+            console.log({got: 2});
           }
         </squirrel-pie>
       </div>
       <div style="flex: 50%;">
-        TODO!
+        <hoity-toity id="js" language="javascript" value="console.log('bork!');"></hoity-toity>
       </div>
     </div>
 
+    <div>
+      <bread-crumb id="breadCrumb" separator="/" value='[["Home", "/home"], ["Library", "/library"], ["Data", "/library/data"]]'>
+      </bread-crumb>
+    </div>
+
     <script type="module" src="./index.js"></script>
+
     <script type="module">
-      squirrelPie.addEventListener("squirrel", function(event){
-        console.log(event.detail)
-      })
+
+    import ChainCollector from './chains.js'
+
+    const chain = new ChainCollector();
+    chain.first.second("Meow").third.fourth;
+    console.log( ...chain );
+
+    for (const item of chain) {
+        console.log(item);
+    }
+
+    squirrelPie.addEventListener("squirrel", function(event){
+      console.log(event.detail)
+      js.setValue(JSON.stringify(event.detail.arrayPath,0,2));
+
+      console.log(event.detail.astPath)
+      const boop = event.detail.astPath.reduce((pathStack, currentName)=>{
+        const extractName = ([name, path])=>name;
+        const currentPath = pathStack.map(extractName).join("/");
+        pathStack.push([currentName, currentPath]);
+        return pathStack;
+      } , []);
+
+      console.log(boop.map( ([name, path])=>path ))
+      console.log(boop )
+
+      breadCrumb.setAttribute('value', JSON.stringify(boop));
+    });
+
+
+    breadCrumb.addEventListener('navigate', (e) => {
+        console.log(e.detail.label, e.detail.url);
+    });
 
     </script>
 

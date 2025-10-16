@@ -80,8 +80,8 @@ class SquirrelPie extends HTMLElement {
     }
 
     return {
-      astPath: path.join(" > "),
-      arrayPath: arrayPath.join("."),
+      astPath: path,
+      arrayPath: arrayPath,
       nodeType: node.type,
       node: node
     };
